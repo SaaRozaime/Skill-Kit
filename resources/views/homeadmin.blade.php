@@ -225,7 +225,7 @@
   <div class="top-bar">
     <div class="top-bar-left">
       <img src="images/LICH.jpg" alt="Profile Picture" class="profile-img"/>
-      <span>Nuruk Fatin Rozaime</span>
+      <span>Nurul Fatin Rozaime</span>
     </div>
   </div>
 

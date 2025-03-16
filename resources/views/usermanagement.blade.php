@@ -54,7 +54,7 @@
 
     .politeknik-logo {
       position: absolute;
-      top: -20px; /* Adjusted logo upwards */
+      top: -8px; /* Adjusted logo upwards */
       right: 24px;
       max-width: 200px;
       height: auto;

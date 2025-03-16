@@ -47,6 +47,11 @@
       margin-right: 12px;
     }
 
+    .top-bar-left span {
+      font-size: 18px;
+      font-weight: bold;
+    }
+
     .container {
       display: flex;
       height: calc(100vh - 140px);
@@ -143,18 +148,37 @@
       cursor: pointer;
       margin-top: 10px;
     }
+
+    .politeknik-logo {
+      position: absolute;
+      top: -8px; /* Adjusted logo upwards */
+      right: 24px;
+      max-width: 200px;
+      height: auto;
+      object-fit: contain;
+    }
+
+    .bottom-logo {
+      margin-top: auto; /* Pushes the logo to the bottom */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px 0;
+    }
   </style>
 </head>
 <body>
   <div class="top-bar">
     <div class="top-bar-left">
-      <img src="images/lich.jpg" alt="Profile Picture" class="profile-img"/>
+      <img src="images/LICH.jpg" alt="Profile Picture" class="profile-img"/>
       <span>Nurul Fatin Rozaime</span>
     </div>
   </div>
 
+  <!-- Politeknik Logo -->
+  <img src="images/Poli.png" alt="Politeknik Logo" class="politeknik-logo"/>
+
   <div class="container">
-    <!-- Sidebar -->
     <div class="sidebar">
       <a href="{{ route('homeadmin') }}"><button>Homepage</button></a>
       <a href="{{ route('profileadmin') }}"><button>Profile</button></a>
@@ -163,6 +187,10 @@
       <a href="{{ route('reportfeedbackadmin') }}"><button>Report & Feedbacks</button></a>
       <a href="{{ route('aboutusadmin') }}"><button>About us</button></a>
       <a href="{{ route('login') }}"><button>Log Out</button></a>
+
+      <div class="bottom-logo">
+        <img src="images/Logo.png" alt="SkillKit Logo"/>
+      </div>
     </div>
 
     <!-- Main Content -->
