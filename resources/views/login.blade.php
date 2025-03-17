@@ -143,8 +143,8 @@
     <!-- Gray Background Section (Login Form) -->
     <div class="gray-background">
       <img class="logo" src="images/Logo.png" alt="SkillKit Logo" />
-      <input id="username" class="login-input" type="text" placeholder="Username" />
-      <div id="username-error" class="error-message"></div>
+      <input id="email" class="login-input" type="text" placeholder="Email" />
+      <div id="email-error" class="error-message"></div>
       <input id="password" class="login-input" type="password" placeholder="Password" />
       <div id="password-error" class="error-message"></div>
       <div class="login-button" onclick="validateLogin()">Login</div>
@@ -174,25 +174,25 @@
 
     // Function to validate login
     function validateLogin() {
-      const username = document.getElementById('username').value;
+      const email = document.getElementById('email').value;
       const password = document.getElementById('password').value;
-      const usernameError = document.getElementById('username-error');
+      const emailError = document.getElementById('email-error');
       const passwordError = document.getElementById('password-error');
-      const usernameInput = document.getElementById('username');
+      const emailInput = document.getElementById('email');
       const passwordInput = document.getElementById('password');
 
       // Clear previous error messages and highlight
-      usernameError.innerHTML = '';
+      emailError.innerHTML = '';
       passwordError.innerHTML = '';
-      usernameInput.classList.remove('error-input');
+      emailInput.classList.remove('error-input');
       passwordInput.classList.remove('error-input');
 
       // Check if both fields are filled
       let valid = true;
 
-      if (username === '') {
-        usernameError.innerHTML = 'Username is required';
-        usernameInput.classList.add('error-input');
+      if (email === '') {
+        emailError.innerHTML = 'Email is required';
+        emailInput.classList.add('error-input');
         valid = false;
       }
 

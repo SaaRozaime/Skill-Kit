@@ -133,8 +133,8 @@
     <input class="register-input" type="text" id="full-name" placeholder="Full Name" required />
     <input class="register-input" type="email" id="email" placeholder="Email Address" required />
     <input class="register-input" type="password" id="password" placeholder="Password" required />
-    <input class="register-input" type="text" id="group-code" placeholder="Group Code" required />
-    <input class="register-input" type="text" id="intake" placeholder="Intake" required />
+    <input class="register-input" type="text" id="group-code" placeholder="Group Code" />
+    <input class="register-input" type="text" id="role" placeholder="Role" required />
     <div class="register-button" onclick="validateForm()">Register</div>
     <a href="{{ route('login') }}" class="already-have-account" onclick="fadeOutToLogin(event)">Already have an account?</a>
   </div>
@@ -144,11 +144,10 @@
       var fullName = document.getElementById('full-name').value;
       var email = document.getElementById('email').value;
       var password = document.getElementById('password').value;
-      var groupCode = document.getElementById('group-code').value;
-      var intake = document.getElementById('intake').value;
+      var role = document.getElementById('role').value;
 
-      if (!fullName || !email || !password || !groupCode || !intake) {
-        alert("Please fill in all fields.");
+      if (!fullName || !email || !password || !role) {
+        alert("Please fill in all required fields.");
       } else {
         alert("Account Registered!");
         document.body.style.animation = "fadeOut 1s ease-in-out forwards";
