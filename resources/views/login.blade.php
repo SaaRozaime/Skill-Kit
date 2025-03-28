@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   <style>
     /* Prevent scrolling */
     html, body {
@@ -36,40 +37,43 @@
       flex: 1;
       background-color: #D9D9D9;
       display: flex;
-      justify-content: center; /* Center the items horizontally */
-      align-items: center; /* Center the items vertically */
+      justify-content: center;
+      align-items: center;
       flex-direction: column;
       padding: 20px;
       box-sizing: border-box;
-      border: 2px solid #bbb; /* Added border to the gray part */
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Added undershadow */
+      border: 2px solid #bbb;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
 
-    /* SkillKit logo positioning */
-    .logo {
-      width: 15vw;
-      margin-bottom: 30px; /* Adjusted margin for better positioning */
-      image-rendering: smooth; /* Smooth the logo image */
+    /* Form container */
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      max-width: 250px;
+      gap: 10px;
     }
 
     /* Input fields */
     .login-input {
       width: 100%;
-      max-width: 250px;
       height: 40px;
       background: white;
       border-radius: 17px;
       font-family: Lexend, sans-serif;
       font-size: 18px;
       color: black;
-      text-align: center;
-      margin: 10px 0;
-      padding: 5px;
+      text-align: left;
+      padding: 0 20px;
       border: 1px solid #ccc;
+      box-sizing: border-box;
     }
 
     .login-input::placeholder {
       color: #aaa;
+      text-align: left;
     }
 
     /* Highlighted input fields with errors */
@@ -80,7 +84,6 @@
     /* Login button */
     .login-button {
       width: 100%;
-      max-width: 250px;
       height: 40px;
       background-color: white;
       color: black;
@@ -89,16 +92,25 @@
       font-size: 18px;
       text-align: center;
       cursor: pointer;
-      margin-top: 20px;
       border: 1px solid #ccc;
       display: flex;
       justify-content: center;
       align-items: center;
+      margin-top: 10px;
     }
 
     .login-button:hover {
       background-color: gray;
       color: white;
+    }
+
+    /* Links container */
+    .links-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      margin-top: 10px;
     }
 
     /* Links styling */
@@ -109,7 +121,6 @@
       color: black;
       cursor: pointer;
       text-decoration: underline;
-      margin-top: 10px;
     }
 
     .forgot-password:hover,
@@ -130,8 +141,8 @@
     .error-message {
       color: red;
       font-size: 14px;
-      margin-top: -8px;
       text-align: center;
+      margin-top: -5px;
     }
   </style>
 </head>
@@ -143,14 +154,22 @@
     <!-- Gray Background Section (Login Form) -->
     <div class="gray-background">
       <img class="logo" src="images/Logo.png" alt="SkillKit Logo" />
-      <input id="email" class="login-input" type="text" placeholder="Email" />
-      <div id="email-error" class="error-message"></div>
-      <input id="password" class="login-input" type="password" placeholder="Password" />
-      <div id="password-error" class="error-message"></div>
-      <div class="login-button" onclick="validateLogin()">Login</div>
-      <!-- Forgot Password Link -->
-      <a href="#" class="forgot-password">Forgot password?</a>
-      <a href="#" class="create-account">Create Your Account</a>
+      <form id="loginForm" method="POST" action="{{ route('login') }}">
+        @csrf
+        <input id="email" name="email" class="login-input @error('email') error-input @enderror" type="email" placeholder="Email" value="{{ old('email') }}" />
+        @error('email')
+          <div class="error-message">{{ $message }}</div>
+        @enderror
+        <input id="password" name="password" class="login-input @error('password') error-input @enderror" type="password" placeholder="Password" />
+        @error('password')
+          <div class="error-message">{{ $message }}</div>
+        @enderror
+        <div class="login-button" onclick="document.getElementById('loginForm').submit()">Login</div>
+      </form>
+      <div class="links-container">
+        <a href="{{ route('password.request') }}" class="forgot-password">Forgot password?</a>
+        <a href="{{ route('register') }}" class="create-account">Create Your Account</a>
+      </div>
     </div>
   </div>
   <img class="politeknik-logo" src="images/Poli.png" alt="Politeknik Logo" />
@@ -158,65 +177,21 @@
   <script>
     // Function to handle fade-in effect after page load
     function fadeIn() {
-      document.querySelector('.container').style.opacity = 1; // Make container visible
+      document.querySelector('.container').style.opacity = 1;
     }
 
     // Function to handle fade-out effect and then redirect
     function fadeOutAndRedirect(url) {
-      // Trigger fade-out effect by setting opacity to 0
       document.querySelector('.container').style.opacity = 0;
-
-      // Wait for the fade-out to finish (1 second) before redirecting
       setTimeout(function() {
-        window.location.href = url; // Redirect to the given URL
-      }, 1000); // Duration matches the fade-out transition time
+        window.location.href = url;
+      }, 1000);
     }
 
-    // Function to validate login
-    function validateLogin() {
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
-      const emailError = document.getElementById('email-error');
-      const passwordError = document.getElementById('password-error');
-      const emailInput = document.getElementById('email');
-      const passwordInput = document.getElementById('password');
-
-      // Clear previous error messages and highlight
-      emailError.innerHTML = '';
-      passwordError.innerHTML = '';
-      emailInput.classList.remove('error-input');
-      passwordInput.classList.remove('error-input');
-
-      // Check if both fields are filled
-      let valid = true;
-
-      if (email === '') {
-        emailError.innerHTML = 'Email is required';
-        emailInput.classList.add('error-input');
-        valid = false;
-      }
-
-      if (password === '') {
-        passwordError.innerHTML = 'Password is required';
-        passwordInput.classList.add('error-input');
-        valid = false;
-      }
-
-      if (valid) {
-        // Redirect to home.blade.php if both fields are filled
-        fadeOutAndRedirect('{{ url('/home') }}'); // Replace with your actual home URL
-      }
-    }
-
-    // Add event listeners to the "Forgot password?" and "Create Your Account" links
-    document.querySelector('.forgot-password').addEventListener('click', function(event) {
-      event.preventDefault(); // Prevent default link behavior
-      fadeOutAndRedirect('{{ url('/forgotpassword') }}'); // Redirect to forgot password page
-    });
-
+    // Add event listener to the "Create Your Account" link
     document.querySelector('.create-account').addEventListener('click', function(event) {
-      event.preventDefault(); // Prevent default link behavior
-      fadeOutAndRedirect('{{ route('register') }}'); // Redirect to create account page
+      event.preventDefault();
+      fadeOutAndRedirect(this.href);
     });
   </script>
 </body>

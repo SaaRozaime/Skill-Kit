@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   <title>Register</title>
   <style>
     /* Prevent scrolling */
@@ -56,55 +57,71 @@
       width: 12vw;
     }
 
-    /* Centered registration box */
-    .register-box {
+    /* Gray background for the registration form */
+    .gray-background {
+      flex: 1;
+      background-color: #D9D9D9;
       display: flex;
-      flex-direction: column;
       justify-content: center;
       align-items: center;
-      background: rgba(217, 217, 217, 0.9);
-      padding: 40px;
-      border-radius: 12px;
-      width: 100%;
-      max-width: 400px;
+      flex-direction: column;
+      padding: 20px;
+      box-sizing: border-box;
+      border: 2px solid #bbb;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      border: 2px solid #ccc;
-      animation: fadeIn 2s ease-in-out forwards;
     }
 
-    .logo {
-      width: 15vw;
-      margin-bottom: 30px;
+    /* Form container */
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      max-width: 250px;
+      gap: 10px;
     }
 
+    /* Input fields */
     .register-input {
       width: 100%;
-      max-width: 280px;
-      height: 45px;
+      height: 40px;
       background: white;
       border-radius: 17px;
-      font-size: 16px;
-      text-align: center;
-      margin: 12px 0;
-      padding: 10px;
+      font-family: Lexend, sans-serif;
+      font-size: 18px;
+      color: black;
+      text-align: left;
+      padding: 0 20px;
       border: 1px solid #ccc;
+      box-sizing: border-box;
     }
 
+    .register-input::placeholder {
+      color: #aaa;
+      text-align: left;
+    }
+
+    /* Highlighted input fields with errors */
+    .error-input {
+      border: 1px solid red;
+    }
+
+    /* Register button */
     .register-button {
       width: 100%;
-      max-width: 280px;
-      height: 45px;
+      height: 40px;
       background-color: white;
       color: black;
       border-radius: 17px;
-      font-size: 16px;
+      font-family: Lexend, sans-serif;
+      font-size: 18px;
       text-align: center;
       cursor: pointer;
       border: 1px solid #ccc;
       display: flex;
       justify-content: center;
       align-items: center;
-      transition: background-color 0.3s ease, color 0.3s ease;
+      margin-top: 10px;
     }
 
     .register-button:hover {
@@ -112,35 +129,98 @@
       color: white;
     }
 
-    .already-have-account {
-      font-size: 16px;
+    /* Back to login link */
+    .back-to-login {
+      font-family: Lexend, sans-serif;
+      font-size: 18px;
       color: black;
       cursor: pointer;
       text-decoration: underline;
       margin-top: 10px;
     }
 
-    .already-have-account:hover {
+    .back-to-login:hover {
       color: #555;
+    }
+
+    /* Error message styling */
+    .error-message {
+      color: red;
+      font-size: 14px;
+      text-align: center;
+      margin-top: -5px;
     }
   </style>
 </head>
 <body>
-  <div class="background"></div>
-  <img class="politeknik-logo" src="images/Poli.png" alt="Politeknik Logo" />
-  <div class="register-box">
-    <img class="logo" src="images/Logo.png" alt="SkillKit Logo" />
-    <input class="register-input" type="text" id="full-name" placeholder="Full Name" required />
-    <input class="register-input" type="email" id="email" placeholder="Email Address" required />
-    <input class="register-input" type="password" id="password" placeholder="Password" required />
-    <input class="register-input" type="text" id="group-code" placeholder="Group Code" />
-    <input class="register-input" type="text" id="role" placeholder="Role" required />
-    <div class="register-button" onclick="validateForm()">Register</div>
-    <a href="{{ route('login') }}" class="already-have-account" onclick="fadeOutToLogin(event)">Already have an account?</a>
+  <div class="container">
+    <!-- Background -->
+    <div class="background"></div>
+
+    <!-- Gray Background Section (Registration Form) -->
+    <div class="gray-background">
+      <img class="logo" src="images/Logo.png" alt="SkillKit Logo" />
+      <form id="registerForm" method="POST" action="{{ route('register') }}">
+        @csrf
+        <input 
+          type="text" 
+          name="name" 
+          class="register-input @error('name') error-input @enderror" 
+          placeholder="Name"
+          value="{{ old('name') }}"
+        />
+        @error('name')
+          <div class="error-message">{{ $message }}</div>
+        @enderror
+        <input 
+          type="email" 
+          name="email" 
+          class="register-input @error('email') error-input @enderror" 
+          placeholder="Email"
+          value="{{ old('email') }}"
+        />
+        @error('email')
+          <div class="error-message">{{ $message }}</div>
+        @enderror
+        <input 
+          type="password" 
+          name="password" 
+          class="register-input @error('password') error-input @enderror" 
+          placeholder="Password"
+        />
+        @error('password')
+          <div class="error-message">{{ $message }}</div>
+        @enderror
+        <input 
+          type="password" 
+          name="password_confirmation" 
+          class="register-input" 
+          placeholder="Confirm Password"
+        />
+        <select name="role" class="register-input @error('role') error-input @enderror">
+          <option value="">Select Role</option>
+          <option value="student" {{ old('role') == 'student' ? 'selected' : '' }}>Student</option>
+          <option value="lecturer" {{ old('role') == 'lecturer' ? 'selected' : '' }}>Lecturer</option>
+          <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>Admin</option>
+        </select>
+        @error('role')
+          <div class="error-message">{{ $message }}</div>
+        @enderror
+        <div class="register-button" onclick="document.getElementById('registerForm').submit()">Register</div>
+      </form>
+      <a href="{{ route('login') }}" class="back-to-login">Already have an account? Login</a>
+    </div>
   </div>
 
   <script>
-    function validateForm() {
+    // Add CSRF token to all AJAX requests
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    function submitForm() {
       var fullName = document.getElementById('full-name').value;
       var email = document.getElementById('email').value;
       var password = document.getElementById('password').value;
@@ -149,11 +229,7 @@
       if (!fullName || !email || !password || !role) {
         alert("Please fill in all required fields.");
       } else {
-        alert("Account Registered!");
-        document.body.style.animation = "fadeOut 1s ease-in-out forwards";
-        setTimeout(function() {
-          window.location.href = "{{ route('login') }}";
-        }, 1000);
+        document.getElementById('registerForm').submit();
       }
     }
 

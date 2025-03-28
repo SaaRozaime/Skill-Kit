@@ -3,7 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   <title>SkillKit Dashboard</title>
+  <link rel="stylesheet" href="{{ asset('css/common.css') }}">
   <style>
     body, html {
       margin: 0;
@@ -19,47 +21,6 @@
     @keyframes fadeIn {
       from { opacity: 0; }
       to { opacity: 1; }
-    }
-
-    /* Top Bar */
-    .top-bar {
-      width: 100%;
-      height: 140px;
-      background-color: #F0F0F0;
-      color: black;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0 24px;
-      position: relative;
-      border-bottom: 3px solid black;
-    }
-
-    .top-bar-left {
-      display: flex;
-      align-items: center;
-    }
-
-    .profile-img {
-      width: 100px;
-      height: 100px;
-      border-radius: 50%;
-      margin-right: 12px;
-    }
-
-    .top-bar-left span {
-      font-size: 18px;
-      font-weight: bold;
-    }
-
-    /* Politeknik Logo */
-    .politeknik-logo {
-      position: absolute;
-      top: -8px;
-      right: 24px;
-      max-width: 200px;
-      height: auto;
-      object-fit: contain;
     }
 
     .container {
@@ -97,6 +58,31 @@
     }
 
     .sidebar button:hover {
+      background-color: #D3D3D3;
+      border-color: #A9A9A9;
+      color: #333;
+    }
+
+    /* Logout button in sidebar */
+    .logout-form {
+      width: 100%;
+    }
+
+    .sidebar-button {
+      background: transparent;
+      border: 2px solid #BDC3C7;
+      color: black;
+      font-size: 18px;
+      padding: 15px;
+      text-align: left;
+      width: 100%;
+      margin-bottom: 10px;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: all 0.3s ease;
+    }
+
+    .sidebar-button:hover {
       background-color: #D3D3D3;
       border-color: #A9A9A9;
       color: #333;
@@ -224,50 +210,15 @@
   <!-- Top Bar -->
   <div class="top-bar">
     <div class="top-bar-left">
-      <img src="images/FINN.png" alt="Profile Picture" class="profile-img"/>
-      <span>Ampuan Muhammad Abdul Matin Bin Ampuan Shahmali</span>
+      <img src="images/FINN.png" alt="Profile" class="profile-img">
+      <span class="user-name">{{ Auth::user()->name }}</span>
     </div>
+    <img src="images/Poli.png" alt="Politeknik Logo" class="politeknik-logo">
   </div>
-
-  <!-- Politeknik Logo -->
-  <img src="images/Poli.png" alt="Politeknik Logo" class="politeknik-logo"/>
 
   <div class="container">
     <!-- Sidebar -->
-    <div class="sidebar">
-      <div>
-        <!-- Home Page Button -->
-        <a href="{{ route('home') }}">
-          <button>Homepage</button>
-        </a>
-        <!-- Profile Button -->
-        <a href="{{ route('profile') }}">
-          <button>Profile</button>
-        </a>
-        <!-- Message Button -->
-        <a href="{{ route('message') }}">
-          <button>Message</button>
-        </a>
-        <!-- Account Button -->
-        <a href="{{ route('account') }}">
-          <button>Account</button>
-        <!-- Report & Feedbacks Button -->
-        <a href="{{ route('reportfeedback') }}">
-          <button>Report & Feedbacks</button>
-        </a>
-        <!-- About us Button -->
-        <a href="{{ route('aboutus') }}">
-          <button>About us</button>
-        </a>
-        <!-- Log Out Button -->
-        <a href="{{ route('login') }}">
-          <button>Log Out</button>
-        </a>
-      </div>
-      <div class="bottom-logo">
-        <img src="images/Logo.png" alt="SkillKit Logo"/>
-      </div>
-    </div>
+    <x-sidebar />
 
     <!-- Main Content -->
     <div class="main-content">
@@ -297,5 +248,14 @@
       </div>
     </div>
   </div>
+
+  <script>
+    // Add CSRF token to all AJAX requests
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+  </script>
 </body>
 </html>
