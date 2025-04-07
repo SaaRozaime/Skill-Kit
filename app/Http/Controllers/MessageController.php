@@ -16,30 +16,35 @@ class MessageController extends Controller
             ->with(['sender'])
             ->orderBy('created_at', 'desc')
             ->get();
+        
+        $users = User::where('id', '!=', $user->id)->get();
 
-        return view('message', compact('messages'));
+        return view('message', compact('messages', 'user', 'users'));
     }
 
     public function send(Request $request)
     {
         $request->validate([
-            'to' => 'required|email|exists:users,email',
-            'message' => 'required|string|max:1000',
+            'recipient' => 'required',
+            'content' => 'required|string|max:1000',
         ]);
 
-        $recipient = User::where('email', $request->to)->first();
         $sender = Auth::user();
+        
+        // Check if recipient is an email or ID
+        if (filter_var($request->recipient, FILTER_VALIDATE_EMAIL)) {
+            $recipient = User::where('email', $request->recipient)->firstOrFail();
+        } else {
+            $recipient = User::findOrFail($request->recipient);
+        }
 
         Message::create([
             'from_user_id' => $sender->id,
             'to_user_id' => $recipient->id,
-            'content' => $request->message,
+            'content' => $request->content,
         ]);
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Message sent successfully!'
-        ]);
+        return redirect()->back()->with('success', 'Message sent successfully!');
     }
 
     public function getUnreadCount()

@@ -4,17 +4,18 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="csrf-token" content="{{ csrf_token() }}">
-  <title>SkillKit Dashboard</title>
+  <title>Message - SkillKit Dashboard</title>
   <style>
     body, html {
       margin: 0;
       padding: 0;
       height: 100%;
-      font-family: Lexend, sans-serif;
+      font-family: 'Inter', sans-serif;
       overflow: hidden;
       position: relative;
       opacity: 0;
       animation: fadeIn 1.5s ease-in-out forwards;
+      background-color: #f8f9fa;
     }
 
     @keyframes fadeIn {
@@ -26,18 +27,18 @@
       }
     }
 
-    /* Top Bar */
     .top-bar {
       width: 100%;
       height: 140px;
-      background-color: #F0F0F0;
-      color: black;
+      background-color: #ffffff;
+      color: #2d3436;
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 0 24px;
       position: relative;
-      border-bottom: 3px solid black;
+      border-bottom: 1px solid #e0e0e0;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
     }
 
     .top-bar-left {
@@ -49,18 +50,21 @@
       width: 100px;
       height: 100px;
       border-radius: 50%;
-      margin-right: 12px;
+      margin-right: 16px;
+      border: 3px solid #4CAF50;
+      padding: 2px;
     }
 
     .top-bar-left span {
-      font-size: 18px;
-      font-weight: bold;
+      font-size: 20px;
+      font-weight: 600;
+      color: #2d3436;
     }
 
     .politeknik-logo {
       position: absolute;
       top: -8px;
-      right: 24px;
+      right: 48px;
       max-width: 200px;
       height: auto;
       object-fit: contain;
@@ -74,172 +78,178 @@
 
     .sidebar {
       width: 250px;
-      background-color: #F0F0F0;
-      color: black;
-      padding: 20px;
+      background-color: #ffffff;
+      color: #2d3436;
+      padding: 24px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       height: 100%;
-      border-right: 3px solid black;
+      border-right: 1px solid #e0e0e0;
+      box-shadow: 2px 0 4px rgba(0, 0, 0, 0.05);
     }
 
-    /* Sidebar Buttons */
     .sidebar button {
       background: transparent;
-      border: 2px solid #BDC3C7;
-      color: black;
-      font-size: 18px;
-      padding: 15px;
+      border: none;
+      color: #2d3436;
+      font-size: 16px;
+      padding: 12px 20px;
       text-align: left;
       width: 100%;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
       cursor: pointer;
-      border-radius: 5px;
+      border-radius: 8px;
       transition: all 0.3s ease;
+      font-weight: 500;
     }
 
     .sidebar button:hover {
-      background-color: #D3D3D3;
-      border-color: #A9A9A9;
-      color: #333;
+      background-color: #f8f9fa;
+      color: #4CAF50;
     }
 
-    /* Main Content Area */
     .main-content {
       flex-grow: 1;
       display: flex;
-      padding: 30px;
-      flex-wrap: wrap;
+      padding: 24px;
       justify-content: space-between;
       overflow: hidden;
-      background-image: url('images/HomeBack.png');
-      background-size: cover;
-      background-position: center;
-      background-attachment: fixed;
-      gap: 30px;
+      background-color: #f8f9fa;
     }
 
-    /* Left Section (Send Message Form) */
     .left-section {
       width: 70%;
       display: flex;
-      flex-wrap: wrap;
+      flex-direction: column;
       gap: 20px;
-      align-items: flex-start;
-      justify-content: center;
     }
 
-    .send-message-card {
-      width: 100%;
-      background: rgba(255, 255, 255, 0.95);
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      padding: 30px;
-      border-radius: 15px;
-      transition: transform 0.3s ease;
+    .message-card {
+      background: #ffffff;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+      padding: 32px;
+      border-radius: 16px;
+      border: none;
     }
 
-    .send-message-card:hover {
-      transform: translateY(-5px);
+    .message-card h2 {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      color: #2d3436;
+      text-align: left;
+      padding-bottom: 16px;
+      border-bottom: 2px solid #f1f3f5;
     }
 
-    .send-message-card h2 {
-      color: #333;
-      margin-bottom: 25px;
-      font-size: 24px;
-      text-align: center;
+    .message-form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
     }
 
-    .send-message-card input,
-    .send-message-card textarea {
-      width: 100%;
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .form-group label {
+      font-weight: 600;
+      color: #2d3436;
+    }
+
+    .form-group select,
+    .form-group textarea {
       padding: 12px;
-      margin: 10px 0;
-      font-size: 16px;
+      border: 1px solid #e0e0e0;
       border-radius: 8px;
-      border: 2px solid #e0e0e0;
-      transition: border-color 0.3s ease;
+      font-size: 16px;
+      background-color: #f8f9fa;
     }
 
-    .send-message-card input:focus,
-    .send-message-card textarea:focus {
-      outline: none;
-      border-color: #4CAF50;
-    }
-
-    .send-message-card textarea {
+    .form-group textarea {
       height: 150px;
       resize: none;
     }
 
-    /* Send Button Styling */
     .send-button {
-      width: 100%;
-      padding: 14px;
-      font-size: 16px;
       background-color: #4CAF50;
       color: white;
+      padding: 12px 24px;
       border: none;
       border-radius: 8px;
+      font-size: 16px;
+      font-weight: 500;
       cursor: pointer;
       transition: all 0.3s ease;
-      font-weight: bold;
-      margin-top: 20px;
+      margin-top: 16px;
     }
 
     .send-button:hover {
       background-color: #45a049;
       transform: translateY(-2px);
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
-    /* Right Section (Notification and Calendar) */
     .right-section {
-      width: 28%;
+      width: 25%;
       display: flex;
       flex-direction: column;
       gap: 20px;
+      border-left: 1px solid #e0e0e0;
+      padding-left: 24px;
+      padding-right: 16px;
+      margin-right: 16px;
     }
 
     .notification-box {
       width: 100%;
-      height: 60%;
-      background: rgba(255, 255, 255, 0.95);
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      padding: 20px;
-      border-radius: 15px;
+      height: 100%;
+      background: #ffffff;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+      padding: 24px;
+      border-radius: 16px;
       overflow-y: auto;
+      border: none;
     }
 
     .notification-box h3 {
-      color: #333;
+      color: #2d3436;
       margin-bottom: 20px;
       font-size: 20px;
-      text-align: center;
-      padding-bottom: 10px;
-      border-bottom: 2px solid #e0e0e0;
+      text-align: left;
+      padding-bottom: 16px;
+      border-bottom: 2px solid #f1f3f5;
+      font-weight: 700;
     }
 
     .notification-item {
-      background: white;
-      padding: 15px;
-      margin-bottom: 15px;
-      border-radius: 10px;
+      background: #f8f9fa;
+      padding: 16px;
+      margin-bottom: 16px;
+      border-radius: 12px;
       border: 1px solid #e0e0e0;
+      transition: all 0.3s ease;
+    }
+
+    .notification-item:hover {
+      background: #f1f3f5;
     }
 
     .message-actions {
       display: flex;
-      gap: 10px;
-      margin-top: 10px;
+      gap: 12px;
+      margin-top: 12px;
     }
 
     .read-button, .delete-button {
-      padding: 8px 15px;
+      padding: 8px 16px;
       border: none;
-      border-radius: 5px;
+      border-radius: 8px;
       cursor: pointer;
-      font-weight: bold;
+      font-weight: 600;
+      font-size: 14px;
       transition: all 0.3s ease;
     }
 
@@ -250,129 +260,25 @@
 
     .read-button:hover {
       background-color: #45a049;
+      transform: translateY(-2px);
     }
 
     .delete-button {
-      background-color: #f44336;
+      background-color: #ff6b6b;
       color: white;
     }
 
     .delete-button:hover {
-      background-color: #d32f2f;
+      background-color: #ff5252;
+      transform: translateY(-2px);
     }
 
-    /* Modal for reading full message */
-    .message-modal {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.5);
-      z-index: 1000;
-    }
-
-    .message-modal-content {
-      position: relative;
-      background-color: white;
-      margin: 15% auto;
-      padding: 20px;
-      width: 80%;
-      max-width: 500px;
-      border-radius: 15px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-
-    .close-modal {
-      position: absolute;
-      right: 20px;
-      top: 10px;
-      font-size: 28px;
-      font-weight: bold;
-      cursor: pointer;
-      color: #666;
-    }
-
-    .close-modal:hover {
-      color: #333;
-    }
-
-    .full-message {
-      margin-top: 20px;
-      line-height: 1.6;
-      color: #333;
-    }
-
-    /* Delete confirmation modal */
-    .delete-modal {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.5);
-      z-index: 1000;
-    }
-
-    .delete-modal-content {
-      position: relative;
-      background-color: white;
-      margin: 15% auto;
-      padding: 20px;
-      width: 80%;
-      max-width: 400px;
-      border-radius: 15px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    .no-messages {
       text-align: center;
-    }
-
-    .delete-confirm-buttons {
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-      margin-top: 20px;
-    }
-
-    .confirm-delete, .cancel-delete {
-      padding: 10px 20px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-weight: bold;
-    }
-
-    .confirm-delete {
-      background-color: #f44336;
-      color: white;
-    }
-
-    .confirm-delete:hover {
-      background-color: #d32f2f;
-    }
-
-    .cancel-delete {
-      background-color: #9e9e9e;
-      color: white;
-    }
-
-    .cancel-delete:hover {
-      background-color: #757575;
-    }
-
-    .calendar-box {
-      width: 100%;
-      height: 40%;
-      background: rgba(255, 255, 255, 0.95);
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      border-radius: 15px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 20px;
-      font-weight: 400;
-      color: #333;
+      color: #636e72;
+      padding: 32px;
+      font-style: italic;
+      font-size: 15px;
     }
 
     .bottom-logo {
@@ -388,69 +294,105 @@
       height: auto;
     }
 
-    .error-message {
-      color: #f44336;
-      margin-bottom: 15px;
-      display: none;
-      padding: 10px;
-      background-color: #ffebee;
+    .success-message, .error-message {
+      position: fixed;
+      top: 24px;
+      right: 24px;
+      padding: 16px 24px;
       border-radius: 8px;
-      border-left: 4px solid #f44336;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+      z-index: 1000;
+      display: none;
+      animation: slideIn 0.5s ease-out;
     }
 
     .success-message {
-      color: #4CAF50;
-      margin-bottom: 15px;
-      display: none;
-      padding: 10px;
-      background-color: #e8f5e9;
-      border-radius: 8px;
-      border-left: 4px solid #4CAF50;
+      background-color: #4CAF50;
+      color: white;
     }
 
-    .no-messages {
-      text-align: center;
-      color: #666;
-      padding: 20px;
-      font-style: italic;
+    .error-message {
+      background-color: #ff6b6b;
+      color: white;
     }
 
-    /* Profile Info in Message Form */
-    .profile-info {
+    @keyframes slideIn {
+      from {
+        transform: translateX(100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    .recipient-input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-bottom: 8px;
+    }
+
+    .recipient-option {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .recipient-option label {
+      font-weight: 500;
+      color: #2d3436;
       display: flex;
       align-items: center;
-      margin-bottom: 20px;
-      padding: 15px;
-      background: #f5f5f5;
-      border-radius: 8px;
+      gap: 8px;
     }
 
-    .profile-info img {
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      margin-right: 15px;
-      border: 2px solid #4CAF50;
-    }
-
-    .profile-info p {
+    .recipient-option input[type="radio"] {
       margin: 0;
-      color: #333;
-      font-size: 14px;
+    }
+
+    .recipient-input,
+    .recipient-select {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 16px;
+      background-color: #f8f9fa;
+    }
+
+    .recipient-input:disabled,
+    .recipient-select:disabled {
+      background-color: #f1f3f5;
+      cursor: not-allowed;
+      opacity: 0.7;
     }
   </style>
 </head>
 <body>
+  <!-- Success Message -->
+  @if(session('success'))
+    <div class="success-message" id="successMessage">
+      {{ session('success') }}
+    </div>
+  @endif
+
+  <!-- Error Message -->
+  @if(session('error'))
+    <div class="error-message" id="errorMessage">
+      {{ session('error') }}
+    </div>
+  @endif
+
   <!-- Top Bar -->
   <div class="top-bar">
     <div class="top-bar-left">
-      <img src="images/FINN.png" alt="Profile Picture" class="profile-img"/>
-      <span>{{ Auth::user()->name }}</span>
+      <img src="images/FINN.png" alt="Profile" class="profile-img">
+      <span class="user-name">{{ $user->name }}</span>
     </div>
+    <img src="images/Poli.png" alt="Politeknik Logo" class="politeknik-logo">
   </div>
-
-  <!-- Politeknik Logo (Top Right) -->
-  <img src="images/Poli.png" alt="Politeknik Logo" class="politeknik-logo"/>
 
   <div class="container">
     <!-- Sidebar -->
@@ -488,25 +430,47 @@
 
     <!-- Main Content Area -->
     <div class="main-content">
-      <!-- Left Section (Send Message Form) -->
+      <!-- Left Section (Message Form) -->
       <div class="left-section">
-        <div class="send-message-card">
+        <div class="message-card">
           <h2>Send Message</h2>
-          <div id="errorMessage" class="error-message"></div>
-          <div id="successMessage" class="success-message"></div>
-          <form id="sendMessageForm">
-            <div class="profile-info">
-              <img src="images/FINN.png" alt="Profile Picture" class="profile-img"/>
-              <p>Email: {{ Auth::user()->email }}</p>
+          <form class="message-form" method="POST" action="{{ route('message.send') }}">
+            @csrf
+            <div class="form-group">
+              <label for="recipient">To:</label>
+              <div class="recipient-input-group">
+                <div class="recipient-option">
+                  <input type="radio" name="recipient_type" value="email" id="email_type" checked>
+                  <label for="email_type">Email Address</label>
+                  <input type="text" 
+                         name="recipient" 
+                         id="recipient" 
+                         placeholder="Enter email address"
+                         class="recipient-input"
+                         autocomplete="off">
+                </div>
+                <div class="recipient-option">
+                  <input type="radio" name="recipient_type" value="select" id="select_type">
+                  <label for="select_type">Select User</label>
+                  <select name="recipient" id="recipient-select" class="recipient-select" disabled>
+                    <option value="">Select from registered users</option>
+                    @foreach($users as $recipient)
+                      <option value="{{ $recipient->id }}">{{ $recipient->name }} ({{ $recipient->email }})</option>
+                    @endforeach
+                  </select>
+                </div>
+              </div>
             </div>
-            <input type="email" name="to" id="to" placeholder="To (Email):" required />
-            <textarea name="message" id="message" placeholder="Enter your message" required></textarea>
-            <button type="submit" class="send-button">SEND</button>
+            <div class="form-group">
+              <label for="message">Message:</label>
+              <textarea name="content" id="message" required></textarea>
+            </div>
+            <button type="submit" class="send-button">Send Message</button>
           </form>
         </div>
       </div>
 
-      <!-- Right Section (Notification and Calendar) -->
+      <!-- Right Section -->
       <div class="right-section">
         <div class="notification-box">
           <h3>Received Messages</h3>
@@ -535,151 +499,83 @@
             </div>
           @endif
         </div>
-        <div class="calendar-box">Calendar</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Message Modal -->
-  <div id="messageModal" class="message-modal">
-    <div class="message-modal-content">
-      <span class="close-modal" onclick="closeMessageModal()">&times;</span>
-      <h3>Message Details</h3>
-      <div class="full-message" id="fullMessageContent"></div>
-    </div>
-  </div>
-
-  <!-- Delete Confirmation Modal -->
-  <div id="deleteModal" class="delete-modal">
-    <div class="delete-modal-content">
-      <h3>Delete Message</h3>
-      <p>Are you sure you want to delete this message?</p>
-      <div class="delete-confirm-buttons">
-        <button class="confirm-delete" onclick="deleteMessage()">Delete</button>
-        <button class="cancel-delete" onclick="closeDeleteModal()">Cancel</button>
       </div>
     </div>
   </div>
 
   <script>
-    let currentMessageId = null;
+    // Show success message if it exists
+    @if(session('success'))
+      document.getElementById('successMessage').style.display = 'block';
+      setTimeout(function() {
+        document.getElementById('successMessage').style.display = 'none';
+      }, 3000);
+    @endif
+
+    // Show error message if it exists
+    @if(session('error'))
+      document.getElementById('errorMessage').style.display = 'block';
+      setTimeout(function() {
+        document.getElementById('errorMessage').style.display = 'none';
+      }, 3000);
+    @endif
+
+    // Add CSRF token to all AJAX requests
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
 
     function openMessageModal(messageId, content) {
-      currentMessageId = messageId;
-      document.getElementById('fullMessageContent').textContent = content;
-      document.getElementById('messageModal').style.display = 'block';
-      markAsRead(messageId);
-    }
-
-    function closeMessageModal() {
-      document.getElementById('messageModal').style.display = 'none';
+      // Implement message modal functionality
+      alert(content); // For now, just show an alert
     }
 
     function confirmDelete(messageId) {
-      currentMessageId = messageId;
-      document.getElementById('deleteModal').style.display = 'block';
-    }
-
-    function closeDeleteModal() {
-      document.getElementById('deleteModal').style.display = 'none';
-    }
-
-    function deleteMessage() {
-      if (!currentMessageId) return;
-
-      fetch(`/message/${currentMessageId}/delete`, {
-        method: 'DELETE',
-        headers: {
-          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-          'Accept': 'application/json'
-        }
-      })
-      .then(response => response.json())
-      .then(data => {
-        if (data.success) {
-          const messageElement = document.querySelector(`[data-message-id="${currentMessageId}"]`);
-          messageElement.remove();
-        }
-      })
-      .finally(() => {
-        closeDeleteModal();
-      });
-    }
-
-    // Close modals when clicking outside
-    window.onclick = function(event) {
-      const messageModal = document.getElementById('messageModal');
-      const deleteModal = document.getElementById('deleteModal');
-      
-      if (event.target == messageModal) {
-        closeMessageModal();
-      }
-      if (event.target == deleteModal) {
-        closeDeleteModal();
-      }
-    }
-
-    document.getElementById('sendMessageForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      
-      const formData = new FormData(this);
-      
-      fetch('{{ route("message.send") }}', {
-        method: 'POST',
-        headers: {
-          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-          'Accept': 'application/json'
-        },
-        body: formData
-      })
-      .then(response => response.json())
-      .then(data => {
-        if (data.success) {
-          document.getElementById('successMessage').textContent = data.message;
-          document.getElementById('successMessage').style.display = 'block';
-          this.reset();
-          setTimeout(() => {
-            location.reload();
-          }, 1500);
-        } else {
-          document.getElementById('errorMessage').textContent = data.message;
-          document.getElementById('errorMessage').style.display = 'block';
-        }
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        document.getElementById('errorMessage').textContent = 'An error occurred while sending the message.';
-        document.getElementById('errorMessage').style.display = 'block';
-      });
-    });
-
-    function markAsRead(messageId) {
-      fetch(`/message/${messageId}/read`, {
-        method: 'POST',
-        headers: {
-          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-          'Accept': 'application/json'
-        }
-      })
-      .then(response => response.json())
-      .then(data => {
-        if (data.success) {
-          const messageElement = document.querySelector(`[data-message-id="${messageId}"]`);
-          messageElement.classList.remove('unread');
-        }
-      });
-    }
-
-    // Check for new messages every 30 seconds
-    setInterval(() => {
-      fetch('/message/unread-count')
+      if (confirm('Are you sure you want to delete this message?')) {
+        // Implement delete functionality
+        fetch(`/message/${messageId}/delete`, {
+          method: 'DELETE',
+          headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+            'Accept': 'application/json'
+          }
+        })
         .then(response => response.json())
         .then(data => {
-          if (data.count > 0) {
-            location.reload();
+          if (data.success) {
+            const messageElement = document.querySelector(`[data-message-id="${messageId}"]`);
+            messageElement.remove();
           }
         });
-    }, 30000);
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      const emailType = document.getElementById('email_type');
+      const selectType = document.getElementById('select_type');
+      const emailInput = document.getElementById('recipient');
+      const selectInput = document.getElementById('recipient-select');
+
+      function toggleInputs() {
+        if (emailType.checked) {
+          emailInput.disabled = false;
+          selectInput.disabled = true;
+          selectInput.value = '';
+        } else {
+          emailInput.disabled = true;
+          selectInput.disabled = false;
+          emailInput.value = '';
+        }
+      }
+
+      emailType.addEventListener('change', toggleInputs);
+      selectType.addEventListener('change', toggleInputs);
+
+      // Initial state
+      toggleInputs();
+    });
   </script>
 </body>
 </html>

@@ -9,11 +9,12 @@
       margin: 0;
       padding: 0;
       height: 100%;
-      font-family: sans-serif;
+      font-family: 'Inter', sans-serif;
       overflow: hidden;
       position: relative;
       opacity: 0;
       animation: fadeIn 1.5s ease-in-out forwards;
+      background-color: #f8f9fa;
     }
 
     @keyframes fadeIn {
@@ -28,14 +29,15 @@
     .top-bar {
       width: 100%;
       height: 140px;
-      background-color: #F0F0F0;
-      color: black;
+      background-color: #ffffff;
+      color: #2d3436;
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 0 24px;
       position: relative;
-      border-bottom: 3px solid black;
+      border-bottom: 1px solid #e0e0e0;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
     }
 
     .top-bar-left {
@@ -47,18 +49,21 @@
       width: 100px;
       height: 100px;
       border-radius: 50%;
-      margin-right: 12px;
+      margin-right: 16px;
+      border: 3px solid #4CAF50;
+      padding: 2px;
     }
 
     .top-bar-left span {
-      font-size: 18px;
-      font-weight: bold;
+      font-size: 20px;
+      font-weight: 600;
+      color: #2d3436;
     }
 
     .politeknik-logo {
       position: absolute;
       top: -8px;
-      right: 24px;
+      right: 48px;
       max-width: 200px;
       height: auto;
       object-fit: contain;
@@ -72,47 +77,44 @@
 
     .sidebar {
       width: 250px;
-      background-color: #F0F0F0;
-      color: black;
-      padding: 20px;
+      background-color: #ffffff;
+      color: #2d3436;
+      padding: 24px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       height: 100%;
-      border-right: 3px solid black;
+      border-right: 1px solid #e0e0e0;
+      box-shadow: 2px 0 4px rgba(0, 0, 0, 0.05);
     }
 
     .sidebar button {
       background: transparent;
-      border: 2px solid #BDC3C7;
-      color: black;
-      font-size: 18px;
-      padding: 15px;
+      border: none;
+      color: #2d3436;
+      font-size: 16px;
+      padding: 12px 20px;
       text-align: left;
       width: 100%;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
       cursor: pointer;
-      border-radius: 5px;
+      border-radius: 8px;
       transition: all 0.3s ease;
+      font-weight: 500;
     }
 
     .sidebar button:hover {
-      background-color: #D3D3D3;
-      border-color: #A9A9A9;
-      color: #333;
+      background-color: #f8f9fa;
+      color: #4CAF50;
     }
 
     .main-content {
       flex-grow: 1;
       display: flex;
-      padding: 20px;
-      flex-wrap: wrap;
+      padding: 24px;
       justify-content: space-between;
       overflow: hidden;
-      background-image: url('images/HomeBack.png');
-      background-size: cover;
-      background-position: center;
-      background-attachment: fixed;
+      background-color: #f8f9fa;
     }
 
     .left-section {
@@ -123,86 +125,174 @@
     }
 
     .message-card {
-      background: rgba(217, 217, 217, 0.8);
-      outline: 1px black solid;
-      padding: 20px;
-      border-radius: 5px;
-      margin-left: 20px;
+      background: #ffffff;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+      padding: 32px;
+      border-radius: 16px;
+      border: none;
     }
 
     .message-card h2 {
-      font-size: 26px;
-      font-weight: bold;
-      margin-bottom: 10px;
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      color: #2d3436;
+      text-align: left;
+      padding-bottom: 16px;
+      border-bottom: 2px solid #f1f3f5;
     }
 
     .message-card p {
-      font-size: 14px;
-      color: black;
+      font-size: 16px;
+      color: #636e72;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .message-card ul {
+      list-style-type: none;
+      padding: 0;
+      margin: 24px 0;
+    }
+
+    .message-card ul li {
+      padding: 16px 20px;
+      margin-bottom: 12px;
+      background: #f8f9fa;
+      border-radius: 12px;
+      border-left: 4px solid #4CAF50;
+      font-size: 15px;
+      color: #2d3436;
+      transition: all 0.3s ease;
+    }
+
+    .message-card ul li:hover {
+      background: #f1f3f5;
+      transform: translateX(4px);
     }
 
     .contact-info {
       display: flex;
       flex-direction: column;
-      gap: 20px;
+      gap: 16px;
+      margin-top: 32px;
+      padding-top: 24px;
+      border-top: 2px solid #f1f3f5;
     }
 
     .contact-info a {
       text-decoration: none;
-      font-size: 20px;
-      color: black;
+      font-size: 15px;
+      color: #2d3436;
       display: flex;
       align-items: center;
-      gap: 5px;
+      gap: 12px;
+      padding: 16px 20px;
+      background: #f8f9fa;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+      font-weight: 500;
     }
 
     .contact-info a:hover {
-      color: #3498db;
-    }
-
-    .contact-info i {
-      font-size: 22px;
+      background: #f1f3f5;
+      color: #4CAF50;
+      transform: translateX(8px);
     }
 
     .contact-info img {
-      width: 25px;
-      height: 25px;
-      border-radius: 5px;
+      width: 24px;
+      height: 24px;
+      border-radius: 6px;
     }
 
     .right-section {
-      width: 28%;
+      width: 25%;
       display: flex;
       flex-direction: column;
       gap: 20px;
-      border-left: 3px solid black;
-      padding-left: 20px;
+      border-left: 1px solid #e0e0e0;
+      padding-left: 24px;
+      padding-right: 16px;
+      margin-right: 16px;
     }
 
     .notification-box {
       width: 100%;
-      height: 60%;
-      background: rgba(217, 217, 217, 0.8);
-      outline: 1px black solid;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 20px;
-      font-weight: 400;
-      color: black;
+      height: 100%;
+      background: #ffffff;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+      padding: 24px;
+      border-radius: 16px;
+      overflow-y: auto;
+      border: none;
     }
 
-    .calendar-box {
-      width: 100%;
-      height: 40%;
-      background: rgba(217, 217, 217, 0.8);
-      outline: 1px black solid;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+    .notification-box h3 {
+      color: #2d3436;
+      margin-bottom: 20px;
       font-size: 20px;
-      font-weight: 400;
-      color: black;
+      text-align: left;
+      padding-bottom: 16px;
+      border-bottom: 2px solid #f1f3f5;
+      font-weight: 700;
+    }
+
+    .notification-item {
+      background: #f8f9fa;
+      padding: 16px;
+      margin-bottom: 16px;
+      border-radius: 12px;
+      border: none;
+      transition: all 0.3s ease;
+    }
+
+    .notification-item:hover {
+      background: #f1f3f5;
+    }
+
+    .message-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .read-button, .delete-button {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 14px;
+      transition: all 0.3s ease;
+    }
+
+    .read-button {
+      background-color: #4CAF50;
+      color: white;
+    }
+
+    .read-button:hover {
+      background-color: #45a049;
+      transform: translateY(-2px);
+    }
+
+    .delete-button {
+      background-color: #ff6b6b;
+      color: white;
+    }
+
+    .delete-button:hover {
+      background-color: #ff5252;
+      transform: translateY(-2px);
+    }
+
+    .no-messages {
+      text-align: center;
+      color: #636e72;
+      padding: 32px;
+      font-style: italic;
+      font-size: 15px;
     }
 
     .bottom-logo {
@@ -223,13 +313,11 @@
   <!-- Top Bar -->
   <div class="top-bar">
     <div class="top-bar-left">
-      <img src="images/FINN.png" alt="Profile Picture" class="profile-img"/>
-      <span>Ampuan Muhammad Abdul Matin Bin Ampuan Shahmali</span>
+      <img src="images/FINN.png" alt="Profile" class="profile-img">
+      <span class="user-name">{{ $user->name }}</span>
     </div>
+    <img src="images/Poli.png" alt="Politeknik Logo" class="politeknik-logo">
   </div>
-
-  <!-- Politeknik Logo (Top Right) -->
-  <img src="images/Poli.png" alt="Politeknik Logo" class="politeknik-logo"/>
 
   <div class="container">
     <!-- Sidebar -->
@@ -247,9 +335,6 @@
         <a href="{{ route('message') }}">
           <button>Message</button>
         </a>
-        <!-- Account Button -->
-        <a href="{{ route('account') }}">
-          <button>Account</button>
         <!-- Report & Feedbacks Button -->
         <a href="{{ route('reportfeedback') }}">
           <button>Report & Feedbacks</button>
@@ -263,7 +348,6 @@
           <button>Log Out</button>
         </a>
       </div>
-
       <div class="bottom-logo">
         <img src="images/Logo.png" alt="SkillKit Logo"/>
       </div>
@@ -299,10 +383,35 @@
         </div>
       </div>
 
-      <!-- Right Section (Notification and Calendar) -->
+      <!-- Right Section -->
       <div class="right-section">
-        <div class="notification-box">Notification</div>
-        <div class="calendar-box">Calendar</div>
+        <div class="notification-box">
+          <h3>Received Messages</h3>
+          @if($messages->count() > 0)
+            @foreach($messages as $message)
+              <div class="notification-item {{ !$message->is_read ? 'unread' : '' }}" 
+                   data-message-id="{{ $message->id }}">
+                <div class="message-sender">
+                  From: {{ $message->sender->name }}
+                </div>
+                <div class="message-content">
+                  {{ Str::limit($message->content, 100) }}
+                </div>
+                <div class="message-time">
+                  {{ $message->created_at->format('M d, Y H:i') }}
+                </div>
+                <div class="message-actions">
+                  <button class="read-button" onclick="openMessageModal({{ $message->id }}, '{{ $message->content }}')">Read</button>
+                  <button class="delete-button" onclick="confirmDelete({{ $message->id }})">Delete</button>
+                </div>
+              </div>
+            @endforeach
+          @else
+            <div class="no-messages">
+              No messages received yet.
+            </div>
+          @endif
+        </div>
       </div>
     </div>
   </div>

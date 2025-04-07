@@ -4,17 +4,18 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="csrf-token" content="{{ csrf_token() }}">
-  <title>SkillKit Dashboard</title>
+  <title>Profile - SkillKit Dashboard</title>
   <style>
     body, html {
       margin: 0;
       padding: 0;
       height: 100%;
-      font-family: Lexend, sans-serif;
-      overflow: hidden; /* Prevent scrolling */
-      position: relative; /* Allow absolute positioning within the page */
-      opacity: 0; /* Set initial opacity to 0 */
-      animation: fadeIn 1.5s ease-in-out forwards; /* Fade-in animation */
+      font-family: 'Inter', sans-serif;
+      overflow: hidden;
+      position: relative;
+      opacity: 0;
+      animation: fadeIn 1.5s ease-in-out forwards;
+      background-color: #f8f9fa;
     }
 
     @keyframes fadeIn {
@@ -26,18 +27,18 @@
       }
     }
 
-    /* Top Bar */
     .top-bar {
       width: 100%;
       height: 140px;
-      background-color: #F0F0F0;
-      color: black;
+      background-color: #ffffff;
+      color: #2d3436;
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 0 24px;
       position: relative;
-      border-bottom: 3px solid black;
+      border-bottom: 1px solid #e0e0e0;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
     }
 
     .top-bar-left {
@@ -49,94 +50,90 @@
       width: 100px;
       height: 100px;
       border-radius: 50%;
-      margin-right: 12px;
+      margin-right: 16px;
+      border: 3px solid #4CAF50;
+      padding: 2px;
     }
 
     .top-bar-left span {
-      font-size: 18px;
-      font-weight: bold;
+      font-size: 20px;
+      font-weight: 600;
+      color: #2d3436;
     }
 
-    /* Politeknik Logo */
     .politeknik-logo {
-      width: 150px;
+      position: absolute;
+      top: -8px;
+      right: 48px;
+      max-width: 200px;
       height: auto;
       object-fit: contain;
-      margin-right: 20px;
     }
 
     .container {
       display: flex;
-      height: calc(100vh - 140px); /* Adjust container height to account for the bigger top bar */
-      background-color: transparent; /* Make the container background transparent to let the image show through */
+      height: calc(100vh - 140px);
+      background-color: transparent;
     }
 
-    /* Sidebar */
     .sidebar {
       width: 250px;
-      background-color: #F0F0F0; /* Off-white color */
-      color: black; /* Darker text for contrast */
-      padding: 20px;
+      background-color: #ffffff;
+      color: #2d3436;
+      padding: 24px;
       display: flex;
       flex-direction: column;
-      justify-content: space-between; /* Ensures content is spread out */
+      justify-content: space-between;
       height: 100%;
-      border-right: 3px solid black; /* Line divider between sidebar and content (black) */
-      position: relative; /* Required for absolute positioning of SkillKit logo */
+      border-right: 1px solid #e0e0e0;
+      box-shadow: 2px 0 4px rgba(0, 0, 0, 0.05);
     }
 
-    /* Sidebar Buttons */
     .sidebar button {
       background: transparent;
-      border: 2px solid #BDC3C7; /* Light gray border */
-      color: black; /* Darker text for contrast */
-      font-size: 18px;
-      padding: 15px;
+      border: none;
+      color: #2d3436;
+      font-size: 16px;
+      padding: 12px 20px;
       text-align: left;
       width: 100%;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
       cursor: pointer;
-      border-radius: 5px; /* Add rounded corners to the button */
-      transition: all 0.3s ease; /* Smooth transition for hover effects */
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      font-weight: 500;
     }
 
-    /* Change the hover color to gray */
     .sidebar button:hover {
-      background-color: #D3D3D3; /* Gray background on hover */
-      border-color: #A9A9A9; /* Slightly darker gray for border */
-      color: #333; /* Darker text color */
+      background-color: #f8f9fa;
+      color: #4CAF50;
     }
 
-    /* Main Content */
     .main-content {
       flex-grow: 1;
       display: flex;
-      padding: 20px;
+      padding: 24px;
       justify-content: center;
       align-items: center;
       overflow: hidden;
-      background-image: url('images/HomeBack.png');
-      background-size: cover;
-      background-position: center;
-      background-attachment: fixed;
+      background-color: #f8f9fa;
     }
 
-    /* Profile Card */
     .profile-card {
       width: 100%;
       max-width: 600px;
-      background: rgba(217, 217, 217, 0.9);
-      border-radius: 12px;
-      padding: 30px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      border: 2px solid #bbb;
+      background: #ffffff;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+      border-radius: 16px;
+      padding: 32px;
+      border: none;
     }
 
     .profile-header {
       display: flex;
       flex-direction: column;
       align-items: center;
-      margin-bottom: 30px;
+      margin-bottom: 32px;
     }
 
     .profile-picture {
@@ -144,106 +141,82 @@
       height: 150px;
       border-radius: 50%;
       margin-bottom: 20px;
-      border: 3px solid #bbb;
+      border: 3px solid #4CAF50;
+      padding: 2px;
     }
 
     .profile-header h2 {
       margin: 0;
       font-size: 24px;
-      color: #333;
+      color: #2d3436;
+      font-weight: 700;
     }
 
     .profile-info {
-      margin-bottom: 30px;
+      margin-bottom: 32px;
     }
 
     .info-group {
       display: flex;
-      margin-bottom: 15px;
-      padding: 10px;
-      background: rgba(255, 255, 255, 0.5);
-      border-radius: 8px;
+      margin-bottom: 16px;
+      padding: 16px;
+      background: #f8f9fa;
+      border-radius: 12px;
+      border: 1px solid #e0e0e0;
+      transition: all 0.3s ease;
+    }
+
+    .info-group:hover {
+      background: #f1f3f5;
     }
 
     .info-group label {
       width: 120px;
-      font-weight: bold;
-      color: #555;
+      font-weight: 600;
+      color: #2d3436;
     }
 
     .info-group span {
       flex: 1;
-      color: #333;
+      color: #636e72;
     }
 
     .profile-actions {
       display: flex;
-      gap: 15px;
+      gap: 16px;
       justify-content: center;
     }
 
     .edit-button {
       background-color: #4CAF50;
       color: white;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
     }
 
     .edit-button:hover {
       background-color: #45a049;
+      transform: translateY(-2px);
     }
 
-    /* Right Section (Notification and Calendar) */
-    .right-section {
-      width: 28%; /* Take the remaining space */
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      border-left: 3px solid black; /* Divider between Notification and Calendar */
-      padding-left: 20px; /* Add padding to the left side to align content properly */
-    }
-
-    /* Smaller Notification Box */
-    .notification-box {
-      width: 100%;
-      height: 60%; /* Make Notification bigger */
-      background: rgba(217, 217, 217, 0.8); /* Slight transparency */
-      outline: 1px black solid;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 20px;
-      font-weight: 400;
-      color: black;
-    }
-
-    /* Smaller Calendar Box */
-    .calendar-box {
-      width: 100%;
-      height: 40%; /* Make Calendar smaller */
-      background: rgba(217, 217, 217, 0.8); /* Slight transparency */
-      outline: 1px black solid;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 20px;
-      font-weight: 400;
-      color: black;
-    }
-
-    /* SkillKit Logo Positioned Inside the Clear Space Under the Log Out Button */
     .bottom-logo {
-      margin-top: 10px; /* Reduced margin-top to move the logo higher */
+      margin-top: 10px;
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 20px 0; /* Add some padding above the logo */
+      padding: 20px 0;
     }
 
     .bottom-logo img {
-      width: 200px; /* Increased width for a bigger logo */
-      height: auto; /* Maintain aspect ratio */
+      width: 200px;
+      height: auto;
     }
 
-    /* Edit Profile Modal */
     .modal {
       display: none;
       position: fixed;
@@ -257,76 +230,88 @@
 
     .modal-content {
       position: relative;
-      background-color: #fff;
+      background-color: #ffffff;
       margin: 15% auto;
-      padding: 20px;
+      padding: 32px;
       width: 80%;
       max-width: 500px;
-      border-radius: 8px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      border-radius: 16px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
     }
 
     .close {
       position: absolute;
-      right: 20px;
-      top: 10px;
-      font-size: 28px;
+      right: 24px;
+      top: 16px;
+      font-size: 24px;
       font-weight: bold;
       cursor: pointer;
+      color: #2d3436;
     }
 
     .edit-form {
       display: flex;
       flex-direction: column;
-      gap: 15px;
+      gap: 16px;
     }
 
     .form-group {
       display: flex;
       flex-direction: column;
-      gap: 5px;
+      gap: 8px;
     }
 
     .form-group label {
-      font-weight: bold;
-      color: #333;
+      font-weight: 600;
+      color: #2d3436;
     }
 
     .form-group input {
-      padding: 8px;
-      border: 1px solid #ddd;
-      border-radius: 4px;
+      padding: 12px;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
       font-size: 16px;
+      background-color: #f8f9fa;
     }
 
     .save-button {
       background-color: #4CAF50;
       color: white;
-      padding: 10px;
+      padding: 12px 24px;
       border: none;
-      border-radius: 4px;
-      cursor: pointer;
+      border-radius: 8px;
       font-size: 16px;
-      margin-top: 10px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 16px;
     }
 
     .save-button:hover {
       background-color: #45a049;
+      transform: translateY(-2px);
     }
 
-    /* Success Message */
-    .success-message {
+    .success-message, .error-message {
       position: fixed;
-      top: 20px;
-      right: 20px;
-      background-color: #4CAF50;
-      color: white;
-      padding: 15px 25px;
-      border-radius: 5px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      top: 24px;
+      right: 24px;
+      padding: 16px 24px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
       z-index: 1000;
       display: none;
       animation: slideIn 0.5s ease-out;
+    }
+
+    .success-message {
+      background-color: #4CAF50;
+      color: white;
+    }
+
+    .error-message {
+      background-color: #ff6b6b;
+      color: white;
     }
 
     @keyframes slideIn {
@@ -338,21 +323,6 @@
         transform: translateX(0);
         opacity: 1;
       }
-    }
-
-    /* Error Message */
-    .error-message {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      background-color: #f44336;
-      color: white;
-      padding: 15px 25px;
-      border-radius: 5px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-      z-index: 1000;
-      display: none;
-      animation: slideIn 0.5s ease-out;
     }
   </style>
 </head>
