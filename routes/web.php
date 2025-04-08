@@ -12,6 +12,14 @@ use App\Http\Controllers\GuidesController;
 use App\Http\Controllers\AssessmentHistoryController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\SearchLibraryController;
+use App\Http\Controllers\PracticeModeController;
+use App\Http\Controllers\Lecturer\HomeLecController;
+use App\Http\Controllers\Lecturer\MessageLecController;
+use App\Http\Controllers\Lecturer\ReportFeedbackLecController;
+use App\Http\Controllers\Lecturer\CreateAssessController;
+use App\Http\Controllers\Lecturer\WriteAssessController;
+use App\Http\Controllers\Lecturer\TrackController;
+use App\Http\Controllers\Lecturer\AddSkillController;
 
 // Public routes
 Route::get('/', function () {
@@ -35,9 +43,23 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 Route::middleware(['auth'])->group(function () {
     // Student Routes
     Route::get('/home', [HomeController::class, 'index'])->name('home');
-    Route::get('/profile', [ProfileController::class, 'show'])->name('profile');
-    Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password');
+    
+    // Lecturer Routes
+    Route::get('/homelec', [HomeLecController::class, 'index'])->name('homelec');
+    Route::get('/aboutuslec', [AboutUsController::class, 'index'])->name('aboutuslec');
+    Route::get('/createassess', [CreateAssessController::class, 'index'])->name('createassess');
+    Route::get('/writeassess', [WriteAssessController::class, 'index'])->name('writeassess');
+    Route::get('/track', [TrackController::class, 'index'])->name('track');
+    Route::get('/addskill', [AddSkillController::class, 'index'])->name('addskill');
+    Route::get('/messagelec', [MessageLecController::class, 'index'])->name('messagelec');
+    Route::get('/reportfeedbacklec', [ReportFeedbackLecController::class, 'index'])->name('reportfeedbacklec');
+
+    // Shared Routes
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
+    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+    Route::get('/profile/password', [ProfileController::class, 'showPasswordForm'])->name('profile.password');
+    Route::post('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password.update');
 
     Route::get('/message', [MessageController::class, 'index'])->name('message');
     Route::post('/message/send', [MessageController::class, 'send'])->name('message.send');
@@ -48,9 +70,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/aboutus', [AboutUsController::class, 'index'])->name('aboutus');
     Route::get('/reportfeedback', [ReportFeedbackController::class, 'index'])->name('reportfeedback');
 
-    Route::get('/practicemode', function () {
-        return view('practicemode');
-    })->name('practicemode');
+    Route::get('/practicemode', [PracticeModeController::class, 'index'])->name('practicemode');
 
     Route::get('/guides', [GuidesController::class, 'index'])->name('guides');
 

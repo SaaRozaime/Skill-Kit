@@ -1,295 +1,226 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SkillKit Dashboard</title>
-  <style>
-    body, html {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      font-family: Lexend, sans-serif;
-      overflow: hidden;
-      position: relative;
-      opacity: 0;
-      animation: fadeIn 1.5s ease-in-out forwards;
-    }
+@extends('layouts.master')
 
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
+@section('title', 'Lecturer Homepage')
 
-    /* Top Bar */
-    .top-bar {
-      width: 100%;
-      height: 140px;
-      background-color: #F0F0F0;
-      color: black;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0 24px;
-      position: relative;
-      border-bottom: 3px solid black;
-    }
+@section('additional-styles')
+.left-section {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
 
-    .top-bar-left {
-      display: flex;
-      align-items: center;
-    }
+.box-link {
+    display: block;
+    width: 48%;
+    height: 243.54px;
+}
 
-    .profile-img {
-      width: 100px;
-      height: 100px;
-      border-radius: 50%;
-      margin-right: 12px;
-    }
+.box-button {
+    width: 100%;
+    height: 100%;
+    background: #ffffff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    font-size: 20px;
+    font-weight: 500;
+    color: #2d3436;
+    cursor: pointer;
+    border-radius: 16px;
+    border: none;
+    transition: all 0.3s ease;
+    padding: 24px;
+    text-align: left;
+}
 
-    .top-bar-left span {
-      font-size: 18px;
-      font-weight: bold;
-    }
+.box-button:hover {
+    background-color: #f8f9fa;
+    transform: translateY(-4px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
 
-    /* Politeknik Logo */
-    .politeknik-logo {
-      position: absolute;
-      top: -8px;
-      right: 24px;
-      max-width: 200px;
-      height: auto;
-      object-fit: contain;
-    }
+.right-section {
+    width: 25%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    border-left: 1px solid #e0e0e0;
+    padding-left: 24px;
+    padding-right: 16px;
+    margin-right: 16px;
+}
 
-    .container {
-      display: flex;
-      height: calc(100vh - 140px);
-      background-color: transparent;
-    }
+.notification-box {
+    width: 100%;
+    height: 100%;
+    background: #ffffff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    padding: 24px;
+    border-radius: 16px;
+    overflow-y: auto;
+    border: none;
+}
 
-    /* Sidebar */
-    .sidebar {
-      width: 250px;
-      background-color: #F0F0F0;
-      color: black;
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      height: 100%;
-      border-right: 3px solid black;
-      position: relative;
-    }
+.notification-box h3 {
+    color: #2d3436;
+    margin-bottom: 20px;
+    font-size: 20px;
+    text-align: left;
+    padding-bottom: 16px;
+    border-bottom: 2px solid #f1f3f5;
+    font-weight: 700;
+}
 
-    .sidebar button {
-      background: transparent;
-      border: 2px solid #BDC3C7;
-      color: black;
-      font-size: 18px;
-      padding: 15px;
-      text-align: left;
-      width: 100%;
-      margin-bottom: 10px;
-      cursor: pointer;
-      border-radius: 5px;
-      transition: all 0.3s ease;
-    }
+.notification-item {
+    background: #f8f9fa;
+    padding: 16px;
+    margin-bottom: 16px;
+    border-radius: 12px;
+    border: 1px solid #e0e0e0;
+    transition: all 0.3s ease;
+}
 
-    .sidebar button:hover {
-      background-color: #D3D3D3;
-      border-color: #A9A9A9;
-      color: #333;
-    }
+.notification-item:hover {
+    background: #f1f3f5;
+}
 
-    /* Main Content */
-    .main-content {
-      flex-grow: 1;
-      display: flex;
-      padding: 20px;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      overflow: hidden;
-      background-image: url('images/HomeBack.png');
-      background-size: cover;
-      background-position: center;
-      background-attachment: fixed;
-    }
+.message-sender {
+    font-weight: 600;
+    color: #2d3436;
+    margin-bottom: 8px;
+}
 
-    /* Left Section */
-    .left-section {
-      width: 70%;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-    }
+.message-content {
+    color: #636e72;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
 
-    /* Practice Mode - Button */
-    .box-link {
-      display: block;
-      width: 48%;
-      height: 243.54px;
-    }
+.message-time {
+    color: #b2bec3;
+    font-size: 12px;
+    margin-bottom: 12px;
+}
 
-    .box-button {
-      width: 100%;
-      height: 100%;
-      background: rgba(217, 217, 217, 0.8);
-      outline: 1px black solid;
-      font-size: 20px;
-      font-weight: 400;
-      color: black;
-      cursor: pointer;
-      border-radius: 5px;
-      border: none;
-      transition: background 0.3s ease, transform 0.1s ease;
-    }
+.message-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 12px;
+}
 
-    .box-button:hover {
-      background-color: #D1D1D1;
-      transform: scale(1.05);
-    }
+.read-button, .delete-button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
 
-    .box-button:active {
-      transform: scale(0.98);
-    }
+.read-button {
+    background-color: #4CAF50;
+    color: white;
+}
 
-    /* Other Boxes */
-    .box {
-      width: 48%;
-      height: 243.54px;
-      background: rgba(217, 217, 217, 0.8);
-      outline: 1px black solid;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 20px;
-      font-weight: 400;
-      color: black;
-      cursor: pointer;
-      transition: background 0.3s ease, transform 0.1s ease;
-      border-radius: 5px;
-    }
+.read-button:hover {
+    background-color: #45a049;
+    transform: translateY(-2px);
+}
 
-    .box:hover {
-      background-color: #D1D1D1;
-      transform: scale(1.05);
-    }
+.delete-button {
+    background-color: #ff6b6b;
+    color: white;
+}
 
-    .box:active {
-      transform: scale(0.98);
-    }
+.delete-button:hover {
+    background-color: #ff5252;
+    transform: translateY(-2px);
+}
 
-    /* Right Section */
-    .right-section {
-      width: 28%;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      border-left: 3px solid black;
-      padding-left: 20px;
-    }
+.no-messages {
+    text-align: center;
+    color: #636e72;
+    padding: 32px;
+    font-style: italic;
+    font-size: 15px;
+}
+@endsection
 
-    .notification-box, .calendar-box {
-      width: 100%;
-      background: rgba(217, 217, 217, 0.8);
-      outline: 1px black solid;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 20px;
-      font-weight: 400;
-      color: black;
-    }
-
-    .notification-box { height: 60%; }
-    .calendar-box { height: 40%; }
-
-    /* SkillKit Logo */
-    .bottom-logo {
-      margin-top: 10px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 20px 0;
-    }
-
-    .bottom-logo img {
-      width: 200px;
-      height: auto;
-    }
-  </style>
-</head>
-<body>
-  <!-- Top Bar -->
-  <div class="top-bar">
-    <div class="top-bar-left">
-      <img src="images/JAKE.jpg" alt="Profile Picture" class="profile-img"/>
-      <span>Muhd Ilham bin Muhd Awang</span>
-    </div>
-  </div>
-
-  <!-- Politeknik Logo -->
-  <img src="images/Poli.png" alt="Politeknik Logo" class="politeknik-logo"/>
-
-  <div class="container">
-    <!-- Sidebar -->
-    <div class="sidebar">
-      <div>
-        <!-- Home Page Button -->
-        <a href="{{ route('homelec') }}">
-          <button>Homepage</button>
-        </a>
-        <!-- Profile Button -->
-        <a href="{{ route('profilelec') }}">
-          <button>Profile</button>
-        </a>
-        <!-- Message Button -->
-        <a href="{{ route('messagelec') }}">
-          <button>Message</button>
-        </a>
-        <!-- Report & Feedbacks Button -->
-        <a href="{{ route('reportfeedbacklec') }}">
-          <button>Report & Feedbacks</button>
-        </a>
-        <!-- About us Button -->
-        <a href="{{ route('aboutuslec') }}">
-          <button>About us</button>
-        </a>
-        <!-- Log Out Button -->
-        <a href="{{ route('login') }}">
-          <button>Log Out</button>
-        </a>
-      </div>
-      <div class="bottom-logo">
-        <img src="images/Logo.png" alt="SkillKit Logo"/>
-      </div>
-    </div>
-
-    <!-- Main Content -->
-    <div class="main-content">
-      <!-- Left Section -->
-      <div class="left-section">
+@section('content')
+<div class="main-content">
+    <!-- Left Section -->
+    <div class="left-section">
         <a href="{{ route('createassess') }}" class="box-link">
-          <button class="box-button">Create Skill Assessment</button>
+            <button class="box-button">Create Skill Assessment</button>
         </a>
         <a href="{{ route('writeassess') }}" class="box-link">
-          <button class="box-button">Write Assessments</button>
+            <button class="box-button">Write Assessments</button>
         </a>
         <a href="{{ route('track') }}" class="box-link">
-          <button class="box-button">Student Performance Tracking</button>
+            <button class="box-button">Student Performance Tracking</button>
         </a>
         <a href="{{ route('addskill') }}" class="box-link">
-          <button class="box-button">Adding Skill</button>
+            <button class="box-button">Adding Skill</button>
         </a>
-      </div>
-
-      <!-- Right Section -->
-      <div class="right-section">
-        <div class="notification-box">Notification</div>
-        <div class="calendar-box">Calendar</div>
-      </div>
     </div>
-  </div>
-</body>
-</html>
+
+    <!-- Right Section -->
+    <div class="right-section">
+        <div class="notification-box">
+            <h3>Received Messages</h3>
+            @if($messages->count() > 0)
+                @foreach($messages as $message)
+                    <div class="notification-item {{ !$message->is_read ? 'unread' : '' }}" 
+                         data-message-id="{{ $message->id }}">
+                        <div class="message-sender">
+                            From: {{ $message->sender->name }}
+                        </div>
+                        <div class="message-content">
+                            {{ Str::limit($message->content, 100) }}
+                        </div>
+                        <div class="message-time">
+                            {{ $message->created_at->format('M d, Y H:i') }}
+                        </div>
+                        <div class="message-actions">
+                            <button class="read-button" onclick="openMessageModal({{ $message->id }}, '{{ $message->content }}')">Read</button>
+                            <button class="delete-button" onclick="confirmDelete({{ $message->id }})">Delete</button>
+                        </div>
+                    </div>
+                @endforeach
+            @else
+                <div class="no-messages">
+                    No messages received yet.
+                </div>
+            @endif
+        </div>
+    </div>
+</div>
+@endsection
+
+@section('scripts')
+<script>
+    function openMessageModal(messageId, content) {
+        // Implement message modal functionality
+        alert(content); // For now, just show an alert
+    }
+
+    function confirmDelete(messageId) {
+        if (confirm('Are you sure you want to delete this message?')) {
+            fetch(`/message/${messageId}/delete`, {
+                method: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                    'Accept': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    const messageElement = document.querySelector(`[data-message-id="${messageId}"]`);
+                    messageElement.remove();
+                }
+            });
+        }
+    }
+</script>
+@endsection

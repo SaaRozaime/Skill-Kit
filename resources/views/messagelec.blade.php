@@ -247,7 +247,7 @@
           <button>Homepage</button>
         </a>
         <!-- Profile Button -->
-        <a href="{{ route('profilelec') }}">
+        <a href="{{ route('profile') }}">
           <button>Profile</button>
         </a>
         <!-- Message Button -->

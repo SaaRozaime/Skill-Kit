@@ -162,6 +162,13 @@
       <img class="logo" src="images/Logo.png" alt="SkillKit Logo" />
       <form id="registerForm" method="POST" action="{{ route('register') }}">
         @csrf
+        @if($errors->any())
+            <div class="error-message" style="margin-bottom: 15px;">
+                @foreach($errors->all() as $error)
+                    <div>{{ $error }}</div>
+                @endforeach
+            </div>
+        @endif
         <input 
           type="text" 
           name="name" 
@@ -197,7 +204,7 @@
           class="register-input" 
           placeholder="Confirm Password"
         />
-        <select name="role" class="register-input @error('role') error-input @enderror">
+        <select name="role" id="role" class="register-input @error('role') error-input @enderror" onchange="toggleCourseField()">
           <option value="">Select Role</option>
           <option value="student" {{ old('role') == 'student' ? 'selected' : '' }}>Student</option>
           <option value="lecturer" {{ old('role') == 'lecturer' ? 'selected' : '' }}>Lecturer</option>
@@ -206,6 +213,21 @@
         @error('role')
           <div class="error-message">{{ $message }}</div>
         @enderror
+
+        <div id="courseField" style="display: none;">
+          <select name="course" class="register-input @error('course') error-input @enderror">
+            <option value="">Select Course</option>
+            <option value="Midwifery" {{ old('course') == 'Midwifery' ? 'selected' : '' }}>Midwifery</option>
+            <option value="Cardiovascular Technology" {{ old('course') == 'Cardiovascular Technology' ? 'selected' : '' }}>Cardiovascular Technology</option>
+            <option value="Nursing" {{ old('course') == 'Nursing' ? 'selected' : '' }}>Nursing</option>
+            <option value="Paramedic" {{ old('course') == 'Paramedic' ? 'selected' : '' }}>Paramedic</option>
+            <option value="Public Health" {{ old('course') == 'Public Health' ? 'selected' : '' }}>Public Health</option>
+            <option value="Dental Hygiene" {{ old('course') == 'Dental Hygiene' ? 'selected' : '' }}>Dental Hygiene</option>
+          </select>
+          @error('course')
+            <div class="error-message">{{ $message }}</div>
+          @enderror
+        </div>
         <div class="register-button" onclick="document.getElementById('registerForm').submit()">Register</div>
       </form>
       <a href="{{ route('login') }}" class="back-to-login">Return to Login</a>
@@ -213,25 +235,21 @@
   </div>
 
   <script>
-    // Add CSRF token to all AJAX requests
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-    });
-
-    function submitForm() {
-      var fullName = document.getElementById('full-name').value;
-      var email = document.getElementById('email').value;
-      var password = document.getElementById('password').value;
-      var role = document.getElementById('role').value;
-
-      if (!fullName || !email || !password || !role) {
-        alert("Please fill in all required fields.");
+    function toggleCourseField() {
+      const roleSelect = document.getElementById('role');
+      const courseField = document.getElementById('courseField');
+      
+      if (roleSelect.value === 'student') {
+        courseField.style.display = 'block';
       } else {
-        document.getElementById('registerForm').submit();
+        courseField.style.display = 'none';
       }
     }
+
+    // Call toggleCourseField on page load to handle pre-selected values
+    document.addEventListener('DOMContentLoaded', function() {
+      toggleCourseField();
+    });
 
     function fadeOutToLogin(event) {
       event.preventDefault();

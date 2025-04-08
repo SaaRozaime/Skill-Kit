@@ -349,6 +349,12 @@
                     <label>Role:</label>
                     <span>{{ ucfirst(Auth::user()->role) }}</span>
                 </div>
+                @if(Auth::user()->role === 'student')
+                <div class="info-group">
+                    <label>Course:</label>
+                    <span>{{ Auth::user()->course }}</span>
+                </div>
+                @endif
                 <div class="info-group">
                     <label>Member Since:</label>
                     <span>{{ Auth::user()->created_at->format('F j, Y') }}</span>

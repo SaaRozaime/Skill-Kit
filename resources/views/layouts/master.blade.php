@@ -176,14 +176,22 @@
 <body>
     <div class="top-bar">
         <div class="top-bar-left">
-            <img src="{{ asset('images/FINN.png') }}" alt="Profile" class="profile-img">
-            <span class="user-name">{{ Auth::user()->name }}</span>
+            @if(auth()->user()->role === 'lecturer')
+                <img src="{{ asset('images/JAKE.jpg') }}" alt="Profile Picture" class="profile-img"/>
+            @else
+                <img src="{{ asset('images/FINN.png') }}" alt="Profile Picture" class="profile-img"/>
+            @endif
+            <span>{{ auth()->user()->name }}</span>
         </div>
         <img src="{{ asset('images/Poli.png') }}" alt="Politeknik Logo" class="politeknik-logo">
     </div>
 
     <div class="container">
-        @include('components.sidebar-' . (Auth::user()->role ?? 'student'))
+        @if(auth()->user()->role === 'lecturer')
+            @include('components.sidebar-lecturer')
+        @else
+            @include('components.sidebar-student')
+        @endif
 
         <div class="main-content">
             @yield('content')

@@ -3,169 +3,152 @@
 @section('title', 'Practice Mode')
 
 @section('additional-styles')
-.main-content {
-    background-color: #f8f9fa;
-    padding: 24px;
-    display: flex;
-    gap: 20px;
-}
+<style>
+    .main-content {
+        display: flex;
+        gap: 20px;
+        padding: 24px;
+        background-color: #f8f9fa;
+    }
 
-.left-section {
-    width: 70%;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    background-color: #f8f9fa;
-    padding: 24px;
-    border-radius: 16px;
-}
+    .left-section {
+        width: 70%;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
 
-.practice-card {
-    width: 100%;
-    max-width: 800px;
-    background: #ffffff;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-    padding: 32px;
-    border-radius: 16px;
-    border: none;
-    margin: 0 auto;
-}
+    .practice-card {
+        background: #ffffff;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        padding: 32px;
+        border-radius: 16px;
+        border: none;
+    }
 
-.form-section {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-}
+    .practice-header {
+        margin-bottom: 24px;
+    }
 
-.form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
+    .practice-header h2 {
+        margin: 0;
+        font-size: 24px;
+        color: #2d3436;
+        font-weight: 700;
+    }
 
-.form-group label {
-    font-weight: 600;
-    color: #2d3436;
-    font-size: 16px;
-}
+    .practice-content {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
 
-select {
-    padding: 12px;
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    font-size: 16px;
-    background-color: #f8f9fa;
-    transition: all 0.3s ease;
-}
+    .course-section {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 12px;
+        border: 1px solid #e0e0e0;
+    }
 
-select:hover {
-    border-color: #4CAF50;
-}
+    .course-section h3 {
+        margin: 0 0 16px 0;
+        color: #2d3436;
+        font-size: 18px;
+    }
 
-select:focus {
-    outline: none;
-    border-color: #4CAF50;
-    box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.1);
-}
+    .skill-list {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
 
-.checkbox-group {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    background: #f8f9fa;
-    padding: 16px;
-    border-radius: 12px;
-    border: 1px solid #e0e0e0;
-}
+    .skill-item {
+        display: flex;
+        align-items: center;
+        padding: 12px;
+        background: #ffffff;
+        border-radius: 8px;
+        border: 1px solid #e0e0e0;
+        transition: all 0.3s ease;
+    }
 
-.checkbox-item {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 8px;
-    border-radius: 8px;
-    transition: all 0.3s ease;
-}
+    .skill-item:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    }
 
-.checkbox-item:hover {
-    background: #f1f3f5;
-}
+    .skill-name {
+        flex: 1;
+        font-weight: 500;
+        color: #2d3436;
+    }
 
-.checkbox-item input[type="checkbox"] {
-    width: 18px;
-    height: 18px;
-    border: 2px solid #4CAF50;
-    border-radius: 4px;
-    cursor: pointer;
-}
+    .practice-button {
+        background-color: #4CAF50;
+        color: white;
+        padding: 8px 16px;
+        border: none;
+        border-radius: 6px;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
 
-.checkbox-item label {
-    font-weight: 500;
-    color: #2d3436;
-    cursor: pointer;
-}
+    .practice-button:hover {
+        background-color: #45a049;
+    }
 
-.reset-btn {
-    background-color: #ff6b6b;
-    color: white;
-    padding: 12px 24px;
-    border: none;
-    border-radius: 8px;
-    font-size: 16px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    margin-top: 16px;
-    align-self: flex-start;
-}
+    .right-section {
+        width: 30%;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
 
-.reset-btn:hover {
-    background-color: #ff5252;
-    transform: translateY(-2px);
-}
+    .notification-box {
+        background: #ffffff;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        padding: 24px;
+        border-radius: 16px;
+        border: none;
+    }
 
-.right-section {
-    width: 25%;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    border-left: 1px solid #e0e0e0;
-    padding-left: 24px;
-    padding-right: 16px;
-    margin-right: 16px;
-    background-color: #f8f9fa;
-    padding: 24px;
-    border-radius: 16px;
-}
+    .notification-header {
+        margin-bottom: 16px;
+    }
 
-.notification-box {
-    width: 100%;
-    height: 100%;
-    background: #ffffff;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-    padding: 24px;
-    border-radius: 16px;
-    overflow-y: auto;
-    border: none;
-}
+    .notification-header h3 {
+        margin: 0;
+        font-size: 18px;
+        color: #2d3436;
+        font-weight: 600;
+    }
 
-.notification-box h3 {
-    color: #2d3436;
-    margin-bottom: 20px;
-    font-size: 20px;
-    text-align: left;
-    padding-bottom: 16px;
-    border-bottom: 2px solid #f1f3f5;
-    font-weight: 700;
-}
+    .notification-list {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
 
-.no-messages {
-    text-align: center;
-    color: #636e72;
-    padding: 32px;
-    font-style: italic;
-    font-size: 15px;
-}
+    .notification-item {
+        padding: 12px;
+        background: #f8f9fa;
+        border-radius: 8px;
+        border: 1px solid #e0e0e0;
+    }
+
+    .notification-item p {
+        margin: 0;
+        color: #2d3436;
+        font-size: 14px;
+    }
+
+    .notification-time {
+        font-size: 12px;
+        color: #636e72;
+        margin-top: 4px;
+    }
+</style>
 @endsection
 
 @section('content')
@@ -173,26 +156,94 @@ select:focus {
     <!-- Left Section -->
     <div class="left-section">
         <div class="practice-card">
-            <div class="form-section">
-                <div class="form-group">
-                    <label for="subject">Select Subject:</label>
-                    <select id="subject" name="subject" onchange="updateSkills()">
-                        <option value="midwifery">Midwifery</option>
-                        <option value="cardiovascular-technology">Cardiovascular Technology</option>
-                        <option value="nursing">Nursing</option>
-                        <option value="paramedic">Paramedic</option>
-                        <option value="public-health">Public Health</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label>Select Skills:</label>
-                    <div class="checkbox-group" id="skills">
-                        <!-- Dynamic skill options will be injected here based on subject -->
+            <div class="practice-header">
+                <h2>Practice Mode</h2>
+            </div>
+            <div class="practice-content">
+                <div class="course-section">
+                    <h3>{{ Auth::user()->course }}</h3>
+                    <div class="skill-list">
+                        @if(Auth::user()->course == 'Midwifery')
+                            <div class="skill-item">
+                                <span class="skill-name">Basic Midwifery Skills</span>
+                                <button class="practice-button">Practice</button>
+                            </div>
+                            <div class="skill-item">
+                                <span class="skill-name">Prenatal Care</span>
+                                <button class="practice-button">Practice</button>
+                            </div>
+                            <div class="skill-item">
+                                <span class="skill-name">Labor and Delivery</span>
+                                <button class="practice-button">Practice</button>
+                            </div>
+                        @elseif(Auth::user()->course == 'Cardiovascular Technology')
+                            <div class="skill-item">
+                                <span class="skill-name">ECG Interpretation</span>
+                                <button class="practice-button">Practice</button>
+                            </div>
+                            <div class="skill-item">
+                                <span class="skill-name">Cardiac Catheterization</span>
+                                <button class="practice-button">Practice</button>
+                            </div>
+                            <div class="skill-item">
+                                <span class="skill-name">Vascular Procedures</span>
+                                <button class="practice-button">Practice</button>
+                            </div>
+                        @elseif(Auth::user()->course == 'Nursing')
+                            <div class="skill-item">
+                                <span class="skill-name">Basic Nursing Skills</span>
+                                <button class="practice-button">Practice</button>
+                            </div>
+                            <div class="skill-item">
+                                <span class="skill-name">Patient Assessment</span>
+                                <button class="practice-button">Practice</button>
+                            </div>
+                            <div class="skill-item">
+                                <span class="skill-name">Medication Administration</span>
+                                <button class="practice-button">Practice</button>
+                            </div>
+                        @elseif(Auth::user()->course == 'Paramedic')
+                            <div class="skill-item">
+                                <span class="skill-name">Emergency Response</span>
+                                <button class="practice-button">Practice</button>
+                            </div>
+                            <div class="skill-item">
+                                <span class="skill-name">Trauma Care</span>
+                                <button class="practice-button">Practice</button>
+                            </div>
+                            <div class="skill-item">
+                                <span class="skill-name">Advanced Life Support</span>
+                                <button class="practice-button">Practice</button>
+                            </div>
+                        @elseif(Auth::user()->course == 'Public Health')
+                            <div class="skill-item">
+                                <span class="skill-name">Epidemiology</span>
+                                <button class="practice-button">Practice</button>
+                            </div>
+                            <div class="skill-item">
+                                <span class="skill-name">Health Promotion</span>
+                                <button class="practice-button">Practice</button>
+                            </div>
+                            <div class="skill-item">
+                                <span class="skill-name">Disease Prevention</span>
+                                <button class="practice-button">Practice</button>
+                            </div>
+                        @elseif(Auth::user()->course == 'Dental Hygiene')
+                            <div class="skill-item">
+                                <span class="skill-name">Oral Assessment</span>
+                                <button class="practice-button">Practice</button>
+                            </div>
+                            <div class="skill-item">
+                                <span class="skill-name">Dental Cleaning</span>
+                                <button class="practice-button">Practice</button>
+                            </div>
+                            <div class="skill-item">
+                                <span class="skill-name">Patient Education</span>
+                                <button class="practice-button">Practice</button>
+                            </div>
+                        @endif
                     </div>
                 </div>
-
-                <button class="reset-btn" onclick="resetSelections()">Reset Selections</button>
             </div>
         </div>
     </div>
@@ -200,31 +251,25 @@ select:focus {
     <!-- Right Section -->
     <div class="right-section">
         <div class="notification-box">
-            <h3>Received Messages</h3>
-            @if(isset($messages) && $messages->count() > 0)
-                @foreach($messages as $message)
-                    <div class="notification-item {{ !$message->is_read ? 'unread' : '' }}" 
-                         data-message-id="{{ $message->id }}">
-                        <div class="message-sender">
-                            From: {{ $message->sender->name }}
-                        </div>
-                        <div class="message-content">
-                            {{ Str::limit($message->content, 100) }}
-                        </div>
-                        <div class="message-time">
-                            {{ $message->created_at->format('M d, Y H:i') }}
-                        </div>
+            <div class="notification-header">
+                <h3>Received Messages</h3>
+            </div>
+            <div class="notification-list">
+                @forelse($messages as $message)
+                    <div class="notification-item" data-message-id="{{ $message->id }}">
+                        <p><strong>{{ $message->sender->name }}</strong>: {{ Str::limit($message->content, 50) }}</p>
                         <div class="message-actions">
-                            <button class="read-button" onclick="openMessageModal({{ $message->id }}, '{{ $message->content }}')">Read</button>
-                            <button class="delete-button" onclick="confirmDelete({{ $message->id }})">Delete</button>
+                            <button class="read-button" onclick="openMessageModal('{{ $message->id }}', '{{ $message->content }}')">Read</button>
+                            <button class="delete-button" onclick="confirmDelete('{{ $message->id }}')">Delete</button>
                         </div>
+                        <span class="notification-time">{{ $message->created_at->diffForHumans() }}</span>
                     </div>
-                @endforeach
-            @else
-                <div class="no-messages">
-                    No messages received yet.
-                </div>
-            @endif
+                @empty
+                    <div class="notification-item">
+                        <p>No messages received.</p>
+                    </div>
+                @endforelse
+            </div>
         </div>
     </div>
 </div>
@@ -232,52 +277,27 @@ select:focus {
 
 @section('scripts')
 <script>
-    function updateSkills() {
-        const subject = document.getElementById("subject").value;
-        const skillsContainer = document.getElementById("skills");
-        
-        // Clear existing skills
-        skillsContainer.innerHTML = '';
-
-        const skills = getSkillsForSubject(subject);
-        skills.forEach(skill => {
-            const skillDiv = document.createElement('div');
-            skillDiv.className = 'checkbox-item';
-            skillDiv.innerHTML = `
-                <input type="checkbox" id="${skill}" name="skills" value="${skill}">
-                <label for="${skill}">${capitalizeFirstLetter(skill.replace(/-/g, ' '))}</label>
-            `;
-            skillsContainer.appendChild(skillDiv);
-        });
+    function openMessageModal(messageId, content) {
+        alert(content);
     }
 
-    function getSkillsForSubject(subject) {
-        switch(subject) {
-            case 'midwifery':
-                return ['antenatal-care', 'delivery-assistance', 'postnatal-care', 'breastfeeding-support', 'maternal-monitoring', 'newborn-care', 'family-planning'];
-            case 'cardiovascular-technology':
-                return ['ecg-monitoring', 'echocardiography', 'stress-testing', 'cardiac-catheterization', 'cardiac-rehabilitation', 'blood-pressure-monitoring', 'vascular-ultrasound'];
-            case 'nursing':
-                return ['patient-bathing', 'vital-signs-check', 'medication-administration', 'wound-dressing', 'patient-education', 'bedside-care', 'emergency-response'];
-            case 'paramedic':
-                return ['patient-assessment', 'first-aid', 'trauma-care', 'patient-transport', 'airway-management', 'cardiac-arrest-management', 'medical-equipment-use'];
-            case 'public-health':
-                return ['epidemiology', 'health-survey-analysis', 'disease-prevention', 'community-health-promotion', 'environmental-health', 'vaccination-programs', 'health-policy-analysis'];
-            default:
-                return [];
+    function confirmDelete(messageId) {
+        if (confirm('Are you sure you want to delete this message?')) {
+            fetch(`/message/${messageId}/delete`, {
+                method: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                    'Accept': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    const messageElement = document.querySelector(`[data-message-id="${messageId}"]`);
+                    messageElement.remove();
+                }
+            });
         }
     }
-
-    function capitalizeFirstLetter(string) {
-        return string.charAt(0).toUpperCase() + string.slice(1);
-    }
-
-    function resetSelections() {
-        const checkboxes = document.querySelectorAll('.checkbox-group input[type="checkbox"]');
-        checkboxes.forEach(checkbox => checkbox.checked = false);
-    }
-
-    // Initialize skills on page load
-    window.onload = updateSkills;
 </script>
 @endsection

@@ -1,251 +1,181 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SkillKit Dashboard</title>
-  <style>
-    body, html {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      font-family: Lexend, sans-serif;
-      overflow: hidden; /* Prevent scrolling */
-      position: relative; /* Allow absolute positioning within the page */
-      opacity: 0; /* Set initial opacity to 0 */
-      animation: fadeIn 1.5s ease-in-out forwards; /* Fade-in animation */
-    }
+@extends('layouts.master')
 
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-      }
-      to {
-        opacity: 1;
-      }
-    }
+@section('title', 'Profile')
 
-    /* Top Bar */
-    .top-bar {
-      width: 100%;
-      height: 140px; /* Increased height for more space to fit the logo */
-      background-color: #F0F0F0; /* Off-white color */
-      color: black; /* Darker text for contrast */
-      display: flex;
-      justify-content: space-between; /* This ensures the left and right are aligned */
-      align-items: center;
-      padding: 0 24px; /* Adjusted padding */
-      position: relative; /* Make it a relative container for absolute positioning */
-      border-bottom: 3px solid black; /* Line divider between top bar and content (black) */
-    }
+@section('additional-styles')
+.main-content {
+    display: flex;
+    justify-content: space-between;
+    padding: 40px;
+    background-image: url('{{ asset('images/HomeBack.png') }}');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    gap: 24px;
+}
 
-    .top-bar-left {
-      display: flex;
-      align-items: center;
-    }
+.profile-container {
+    width: 70%;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 16px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 32px;
+}
 
-    .profile-img {
-      width: 100px; /* Increased profile image size */
-      height: 100px; /* Increased profile image size */
-      border-radius: 50%;
-      margin-right: 12px; /* Adjusted margin */
-    }
+.profile-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 32px;
+    text-align: center;
+}
 
-    .top-bar-left span {
-      font-size: 18px; /* Adjusted font size */
-      font-weight: bold;
-    }
+.profile-picture {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    margin-bottom: 24px;
+    border: 3px solid #4CAF50;
+    padding: 3px;
+    object-fit: cover;
+}
 
-    /* Politeknik Logo (absolute position at the top-right) */
-    .politeknik-logo {
-      position: absolute;
-      top: -8px; /* Adjusted to move the logo higher */
-      right: 24px; /* Keep it a bit from the right edge */
-      max-width: 200px; /* Made logo 10% smaller */
-      height: auto;
-      object-fit: contain; /* Ensures logo scales without distortion */
-    }
+.profile-name {
+    font-size: 28px;
+    font-weight: 600;
+    color: #2d3436;
+    margin-bottom: 8px;
+}
 
-    .container {
-      display: flex;
-      height: calc(100vh - 140px); /* Adjust container height to account for the bigger top bar */
-      background-color: transparent; /* Make the container background transparent to let the image show through */
-    }
+.profile-role {
+    font-size: 18px;
+    color: #636e72;
+    margin-bottom: 24px;
+}
 
-    /* Sidebar */
-    .sidebar {
-      width: 250px;
-      background-color: #F0F0F0; /* Off-white color */
-      color: black; /* Darker text for contrast */
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between; /* Ensures content is spread out */
-      height: 100%;
-      border-right: 3px solid black; /* Line divider between sidebar and content (black) */
-      position: relative; /* Required for absolute positioning of SkillKit logo */
-    }
+.form-group {
+    margin-bottom: 16px;
+}
 
-    /* Sidebar Buttons */
-    .sidebar button {
-      background: transparent;
-      border: 2px solid #BDC3C7; /* Light gray border */
-      color: black; /* Darker text for contrast */
-      font-size: 18px;
-      padding: 15px;
-      text-align: left;
-      width: 100%;
-      margin-bottom: 10px;
-      cursor: pointer;
-      border-radius: 5px; /* Add rounded corners to the button */
-      transition: all 0.3s ease; /* Smooth transition for hover effects */
-    }
+.form-group label {
+    display: block;
+    font-size: 14px;
+    color: #636e72;
+    margin-bottom: 8px;
+}
 
-    /* Change the hover color to gray */
-    .sidebar button:hover {
-      background-color: #D3D3D3; /* Gray background on hover */
-      border-color: #A9A9A9; /* Slightly darker gray for border */
-      color: #333; /* Darker text color */
-    }
+.form-control {
+    width: 100%;
+    padding: 12px;
+    background-color: #f8f9fa;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 16px;
+    color: #2d3436;
+    cursor: default;
+}
 
-    /* Main Content Area */
-    .main-content {
-      flex-grow: 1;
-      display: flex;
-      padding: 20px;
-      flex-wrap: wrap; /* Allow wrapping in case of space */
-      justify-content: space-between;
-      overflow: hidden;
-      background-image: url('images/HomeBack.png'); /* Set your background image here */
-      background-size: cover; /* Ensure the background covers the whole page */
-      background-position: center; /* Center the image */
-      background-attachment: fixed; /* Make sure the background stays fixed when scrolling */
-    }
+.button-group {
+    display: flex;
+    gap: 16px;
+    justify-content: flex-start;
+    margin-top: 32px;
+}
 
-    /* Left Section */
-    .left-section {
-      width: 70%; /* Take the majority of the space */
-      display: flex;
-      flex-wrap: wrap; /* Allow wrapping */
-      gap: 20px;
-      align-items: center;
-      justify-content: center; /* Center the content inside */
-    }
+.action-button {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background-color: #4CAF50;
+    color: white;
+}
 
-    /* Right Section (Notification and Calendar) */
-    .right-section {
-      width: 28%; /* Take the remaining space */
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      border-left: 3px solid black; /* Divider between Notification and Calendar */
-      padding-left: 20px; /* Add padding to the left side to align content properly */
-    }
+.action-button:hover {
+    background-color: #45a049;
+    transform: translateY(-2px);
+}
 
-    /* Smaller Notification Box */
-    .notification-box {
-      width: 100%;
-      height: 60%; /* Make Notification bigger */
-      background: rgba(217, 217, 217, 0.8); /* Slight transparency */
-      outline: 1px black solid;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 20px;
-      font-weight: 400;
-      color: black;
-    }
+.right-section {
+    width: 28%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
 
-    /* Smaller Calendar Box */
-    .calendar-box {
-      width: 100%;
-      height: 40%; /* Make Calendar smaller */
-      background: rgba(217, 217, 217, 0.8); /* Slight transparency */
-      outline: 1px black solid;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 20px;
-      font-weight: 400;
-      color: black;
-    }
+.notification-box {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 16px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 24px;
+    flex-grow: 1;
+}
 
-    /* SkillKit Logo Positioned Inside the Clear Space Under the Log Out Button */
-    .bottom-logo {
-      margin-top: 10px; /* Reduced margin-top to move the logo higher */
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 20px 0; /* Add some padding above the logo */
-    }
+.notification-box h3 {
+    color: #2d3436;
+    margin-bottom: 20px;
+    font-size: 20px;
+    font-weight: 600;
+}
 
-    .bottom-logo img {
-      width: 200px; /* Increased width for a bigger logo */
-      height: auto; /* Maintain aspect ratio */
-    }
-  </style>
-</head>
-<body>
-  <!-- Top Bar -->
-  <div class="top-bar">
-    <div class="top-bar-left">
-      <img src="images/JAKE.jpg" alt="Profile Picture" class="profile-img"/>
-      <span>Muhd Ilham bin Muhd Awang</span>
-    </div>
-  </div>
+.no-messages {
+    text-align: center;
+    color: #636e72;
+    font-style: italic;
+}
+@endsection
 
-  <!-- Politeknik Logo (Top Right) -->
-  <img src="images/Poli.png" alt="Politeknik Logo" class="politeknik-logo"/>
-
-  <div class="container">
-    <!-- Sidebar -->
-    <div class="sidebar">
-      <div>
-        <!-- Home Page Button -->
-        <a href="{{ route('homelec') }}">
-          <button>Homepage</button>
-        </a>
-        <!-- Profile Button -->
-        <a href="{{ route('profilelec') }}">
-          <button>Profile</button>
-        </a>
-        <!-- Message Button -->
-        <a href="{{ route('messagelec') }}">
-          <button>Message</button>
-        </a>
-        <!-- Report & Feedbacks Button -->
-        <a href="{{ route('reportfeedbacklec') }}">
-          <button>Report & Feedbacks</button>
-        </a>
-        <!-- About us Button -->
-        <a href="{{ route('aboutuslec') }}">
-          <button>About us</button>
-        </a>
-        <!-- Log Out Button -->
-        <a href="{{ route('login') }}">
-          <button>Log Out</button>
-        </a>
-      </div>
-
-      <!-- SkillKit Logo at the Bottom of Sidebar (after logout) -->
-      <div class="bottom-logo">
-        <img src="images/Logo.png" alt="SkillKit Logo"/>
-      </div>
+@section('content')
+<div class="profile-container">
+    <div class="profile-header">
+        <img src="{{ asset('images/JAKE.jpg') }}" alt="Profile Picture" class="profile-picture"/>
+        <h2 class="profile-name">{{ auth()->user()->name }}</h2>
+        <p class="profile-role">{{ ucfirst(auth()->user()->role) }}</p>
     </div>
 
-    <!-- Main Content Area -->
-    <div class="main-content">
-      <!-- Left Section -->
-      <div class="left-section">
-        <!-- Empty space where profile card was -->
-      </div>
-
-      <!-- Right Section (Notification and Calendar) -->
-      <div class="right-section">
-        <div class="notification-box">Notification</div>
-        <div class="calendar-box">Calendar</div>
-      </div>
+    <div class="form-group">
+        <label>Name:</label>
+        <input type="text" class="form-control" value="{{ auth()->user()->name }}" disabled>
     </div>
-  </div>
-</body>
-</html>
+
+    <div class="form-group">
+        <label>Email:</label>
+        <input type="email" class="form-control" value="{{ auth()->user()->email }}" disabled>
+    </div>
+
+    <div class="form-group">
+        <label>Role:</label>
+        <input type="text" class="form-control" value="{{ ucfirst(auth()->user()->role) }}" disabled>
+    </div>
+
+    <div class="form-group">
+        <label>Member Since:</label>
+        <input type="text" class="form-control" value="{{ auth()->user()->created_at->format('F d, Y') }}" disabled>
+    </div>
+
+    <div class="button-group">
+        <a href="{{ route('profile.edit') }}" class="action-button">Edit Profile</a>
+        <a href="{{ route('profile.password') }}" class="action-button">Change Password</a>
+    </div>
+</div>
+
+<div class="right-section">
+    <div class="notification-box">
+        <h3>Received Messages</h3>
+        @if(isset($messages) && $messages->count() > 0)
+            @foreach($messages as $message)
+                <div class="notification-item">
+                    <!-- Message content here -->
+                </div>
+            @endforeach
+        @else
+            <div class="no-messages">
+                No messages received yet.
+            </div>
+        @endif
+    </div>
+</div>
+@endsection

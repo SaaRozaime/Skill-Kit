@@ -11,15 +11,19 @@ use App\Models\Message;
 
 class ProfileController extends Controller
 {
-    public function show()
+    public function index()
     {
-        $user = Auth::user();
+        $user = auth()->user();
         $messages = Message::where('to_user_id', $user->id)
             ->with(['sender'])
             ->orderBy('created_at', 'desc')
             ->get();
             
-        return view('profile', compact('user', 'messages'));
+        if ($user->role === 'lecturer') {
+            return view('profilelec', compact('messages'));
+        }
+        
+        return view('profile', compact('messages'));
     }
 
     public function update(Request $request)
@@ -82,5 +86,35 @@ class ProfileController extends Controller
             }
             return back()->with('error', 'Failed to update password. Please try again.');
         }
+    }
+
+    public function edit()
+    {
+        $user = auth()->user();
+        $messages = Message::where('to_user_id', $user->id)
+            ->with(['sender'])
+            ->orderBy('created_at', 'desc')
+            ->get();
+            
+        if ($user->role === 'lecturer') {
+            return view('profilelec.edit', compact('messages'));
+        }
+        
+        return view('profile.edit', compact('messages'));
+    }
+
+    public function showPasswordForm()
+    {
+        $user = auth()->user();
+        $messages = Message::where('to_user_id', $user->id)
+            ->with(['sender'])
+            ->orderBy('created_at', 'desc')
+            ->get();
+            
+        if ($user->role === 'lecturer') {
+            return view('profilelec.password', compact('messages'));
+        }
+        
+        return view('profile.password', compact('messages'));
     }
 } 
