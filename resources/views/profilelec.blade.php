@@ -122,7 +122,7 @@
       background-attachment: fixed; /* Make sure the background stays fixed when scrolling */
     }
 
-    /* Left Section (Profile Card) */
+    /* Left Section */
     .left-section {
       width: 70%; /* Take the majority of the space */
       display: flex;
@@ -130,38 +130,6 @@
       gap: 20px;
       align-items: center;
       justify-content: center; /* Center the content inside */
-    }
-
-    .profile-card {
-      width: 100%;
-      background: rgba(217, 217, 217, 0.8); /* Slight transparency */
-      outline: 1px black solid;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 20px;
-      font-weight: 400;
-      color: black;
-      padding: 20px;
-      border-radius: 5px; /* Slightly rounded corners */
-      flex-direction: column;
-      text-align: center;
-    }
-
-    .profile-card img {
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-      margin-bottom: 20px;
-    }
-
-    .profile-card h2 {
-      margin: 10px 0;
-    }
-
-    .profile-card p {
-      font-size: 16px;
-      color: gray;
     }
 
     /* Right Section (Notification and Calendar) */
@@ -245,9 +213,6 @@
         <a href="{{ route('messagelec') }}">
           <button>Message</button>
         </a>
-        <!-- Account Button -->
-        <a href="{{ route('accountlec') }}">
-          <button>Account</button>
         <!-- Report & Feedbacks Button -->
         <a href="{{ route('reportfeedbacklec') }}">
           <button>Report & Feedbacks</button>
@@ -270,17 +235,9 @@
 
     <!-- Main Content Area -->
     <div class="main-content">
-      <!-- Left Section (Profile Card) -->
+      <!-- Left Section -->
       <div class="left-section">
-        <div class="profile-card">
-          <img src="images/JAKE.jpg" alt="Profile Picture"/>
-          <h2>Muhd Ilham bin Muhd Awang</h2>
-          <p>Medical Lecturer | Politeknik Brunei</p>
-          <p><strong>ID:</strong> 23SHS1018</p>
-          <p><strong>Department:</strong> SHS</p>
-          <p><strong>Email Address:</strong> 23SHS1018@lecturer.pb.edu.bn</p>
-          <p><strong>Role:</strong> Lecturer</p>
-        </div>
+        <!-- Empty space where profile card was -->
       </div>
 
       <!-- Right Section (Notification and Calendar) -->

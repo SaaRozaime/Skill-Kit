@@ -248,10 +248,6 @@
         <a href="{{ route('messagelec') }}">
           <button>Message</button>
         </a>
-        <!-- Account Button -->
-        <a href="{{ route('accountlec') }}">
-          <button>Account</button>
-        </a>
         <!-- Report & Feedbacks Button -->
         <a href="{{ route('reportfeedbacklec') }}">
           <button>Report & Feedbacks</button>

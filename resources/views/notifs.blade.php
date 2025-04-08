@@ -180,13 +180,32 @@
 
   <div class="container">
     <div class="sidebar">
-      <a href="{{ route('homeadmin') }}"><button>Homepage</button></a>
-      <a href="{{ route('profileadmin') }}"><button>Profile</button></a>
-      <a href="{{ route('messageadmin') }}"><button>Message</button></a>
-      <a href="{{ route('accountadmin') }}"><button>Account</button></a>
-      <a href="{{ route('reportfeedbackadmin') }}"><button>Report & Feedbacks</button></a>
-      <a href="{{ route('aboutusadmin') }}"><button>About us</button></a>
-      <a href="{{ route('login') }}"><button>Log Out</button></a>
+      <div>
+        <!-- Home Page Button -->
+        <a href="{{ route('homeadmin') }}">
+          <button>Homepage</button>
+        </a>
+        <!-- Profile Button -->
+        <a href="{{ route('profileadmin') }}">
+          <button>Profile</button>
+        </a>
+        <!-- Message Button -->
+        <a href="{{ route('messageadmin') }}">
+          <button>Message</button>
+        </a>
+        <!-- Report & Feedbacks Button -->
+        <a href="{{ route('reportfeedbackadmin') }}">
+          <button>Report & Feedbacks</button>
+        </a>
+        <!-- About us Button -->
+        <a href="{{ route('aboutusadmin') }}">
+          <button>About us</button>
+        </a>
+        <!-- Log Out Button -->
+        <a href="{{ route('login') }}">
+          <button>Log Out</button>
+        </a>
+      </div>
 
       <div class="bottom-logo">
         <img src="images/Logo.png" alt="SkillKit Logo"/>

@@ -6,15 +6,20 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
-use Illuminate\Validation\Rules\Password;
 use App\Models\User;
+use App\Models\Message;
 
 class ProfileController extends Controller
 {
     public function show()
     {
         $user = Auth::user();
-        return view('profile', compact('user'));
+        $messages = Message::where('to_user_id', $user->id)
+            ->with(['sender'])
+            ->orderBy('created_at', 'desc')
+            ->get();
+            
+        return view('profile', compact('user', 'messages'));
     }
 
     public function update(Request $request)
@@ -37,14 +42,17 @@ class ProfileController extends Controller
     {
         $user = Auth::user();
 
+        // First check if current password is correct
+        if (!Hash::check($request->current_password, $user->password)) {
+            if ($request->expectsJson()) {
+                return response()->json(['errors' => ['current_password' => ['The current password is incorrect.']]], 422);
+            }
+            return back()->withErrors(['current_password' => 'The current password is incorrect.']);
+        }
+
         // Validate the request
         $request->validate([
-            'new_password' => ['required', 'confirmed', Password::min(8)
-                ->letters()
-                ->mixedCase()
-                ->numbers()
-                ->symbols()
-            ],
+            'new_password' => ['required', 'confirmed'],
         ]);
 
         try {
@@ -62,7 +70,7 @@ class ProfileController extends Controller
             if ($request->expectsJson()) {
                 return response()->json([
                     'success' => true,
-                    'message' => 'Password updated successfully!',
+                    'message' => 'Password updated successfully! Please login with your new password.',
                     'redirect' => route('login')
                 ]);
             }
@@ -70,7 +78,7 @@ class ProfileController extends Controller
             return redirect()->route('login')->with('success', 'Password updated successfully! Please login with your new password.');
         } catch (\Exception $e) {
             if ($request->expectsJson()) {
-                return response()->json(['error' => 'Failed to update password. Please try again.']);
+                return response()->json(['error' => 'Failed to update password. Please try again.'], 500);
             }
             return back()->with('error', 'Failed to update password. Please try again.');
         }

@@ -1,479 +1,375 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Assessment History - SkillKit Dashboard</title>
-  <style>
-    body, html {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      font-family: Lexend, sans-serif;
-      overflow: hidden;
-      position: relative;
-      opacity: 0;
-      animation: fadeIn 1.5s ease-in-out forwards;
-    }
+@extends('layouts.master')
 
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-      }
-      to {
-        opacity: 1;
-      }
-    }
+@section('title', 'Assessment History')
 
-    .top-bar {
-      width: 100%;
-      height: 140px;
-      background-color: #F0F0F0;
-      color: black;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0 24px;
-      position: relative;
-      border-bottom: 3px solid black;
-    }
+@section('additional-styles')
+.main-content {
+    background-color: #f8f9fa;
+    padding: 24px;
+    display: flex;
+    gap: 20px;
+}
 
-    .top-bar-left {
-      display: flex;
-      align-items: center;
-    }
+.left-section {
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    background-color: #f8f9fa;
+    padding: 24px;
+    border-radius: 16px;
+}
 
-    .profile-img {
-      width: 100px;
-      height: 100px;
-      border-radius: 50%;
-      margin-right: 12px;
-    }
+.assessment-card {
+    width: 100%;
+    max-width: 800px;
+    background: #ffffff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    padding: 32px;
+    border-radius: 16px;
+    border: none;
+    margin: 0 auto;
+}
 
-    .top-bar-left span {
-      font-size: 18px;
-      font-weight: bold;
-    }
+.assessment-history {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
 
-    .politeknik-logo {
-      position: absolute;
-      top: -8px;
-      right: 24px;
-      max-width: 200px;
-      height: auto;
-      object-fit: contain;
-    }
+.assessment-history h2 {
+    color: #2d3436;
+    font-size: 24px;
+    margin-bottom: 24px;
+    font-weight: 700;
+}
 
-    .container {
-      display: flex;
-      height: calc(100vh - 140px);
-      background-color: transparent;
-    }
+.dropdown {
+    position: relative;
+    margin-bottom: 16px;
+}
 
-    .sidebar {
-      width: 250px;
-      background-color: #F0F0F0;
-      color: black;
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      height: 100%;
-      border-right: 3px solid black;
-    }
+.dropdown button {
+    width: 100%;
+    padding: 16px;
+    background: #f8f9fa;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    text-align: left;
+    font-size: 16px;
+    font-weight: 500;
+    color: #2d3436;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
 
-    .sidebar button {
-      background: transparent;
-      border: 2px solid #BDC3C7;
-      color: black;
-      font-size: 18px;
-      padding: 15px;
-      text-align: left;
-      width: 100%;
-      margin-bottom: 10px;
-      cursor: pointer;
-      border-radius: 5px;
-      transition: all 0.3s ease;
-    }
+.dropdown button:hover {
+    background: #f1f3f5;
+    border-color: #4CAF50;
+}
 
-    .sidebar button:hover {
-      background-color: #D3D3D3;
-      border-color: #A9A9A9;
-      color: #333;
-    }
+.dropdown-content {
+    display: none;
+    position: relative;
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    margin-top: 8px;
+    padding: 16px;
+}
 
-    .main-content {
-      flex-grow: 1;
-      display: flex;
-      padding: 20px;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      overflow: hidden;
-      background-image: url('images/HomeBack.png');
-      background-size: cover;
-      background-position: center;
-      background-attachment: fixed;
-    }
+.dropdown-content a {
+    display: block;
+    padding: 12px 16px;
+    color: #2d3436;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
 
-    .left-section {
-      width: 70%;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
+.dropdown-content a:hover {
+    background: #f8f9fa;
+}
 
-    .right-section {
-      width: 28%;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      border-left: 3px solid black;
-      padding-left: 20px;
-    }
+.pass {
+    background-color: #4CAF50;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+}
 
-    .assessment-history {
-      background: white;
-      outline: 1px black solid;
-      padding: 20px;
-      border-radius: 15px;
-      width: 80%;
-      margin-left: 20px;
-      margin-top: 20px;
-    }
+.fail {
+    background-color: #ff6b6b;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+}
 
-    .assessment-history h2 {
-      font-size: 26px;
-      font-weight: bold;
-      margin-bottom: 25px;
-      text-align: left;
-    }
+.right-section {
+    width: 25%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    border-left: 1px solid #e0e0e0;
+    padding-left: 24px;
+    padding-right: 16px;
+    margin-right: 16px;
+    background-color: #f8f9fa;
+    padding: 24px;
+    border-radius: 16px;
+}
 
-    .assessment-history .dropdown {
-      position: relative;
-      display: inline-block;
-      width: 100%;
-      margin-bottom: 15px;
-    }
+.notification-box {
+    width: 100%;
+    height: 100%;
+    background: #ffffff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    padding: 24px;
+    border-radius: 16px;
+    overflow-y: auto;
+    border: none;
+}
 
-    .assessment-history .dropdown button {
-      background-color: #3498db;
-      color: white;
-      font-size: 18px;
-      padding: 10px;
-      border: none;
-      width: 100%;
-      text-align: left;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
+.notification-box h3 {
+    color: #2d3436;
+    margin-bottom: 20px;
+    font-size: 20px;
+    text-align: left;
+    padding-bottom: 16px;
+    border-bottom: 2px solid #f1f3f5;
+    font-weight: 700;
+}
 
-    .assessment-history .dropdown button:hover {
-      background-color: #2980b9;
-      color: white;
-    }
+.notification-item {
+    background: #f8f9fa;
+    padding: 16px;
+    margin-bottom: 16px;
+    border-radius: 12px;
+    border: 1px solid #e0e0e0;
+    transition: all 0.3s ease;
+}
 
-    .assessment-history .dropdown-content {
-      display: none;
-      position: absolute;
-      background-color: #f9f9f9;
-      min-width: 160px;
-      box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
-      z-index: 1;
-      padding: 10px;
-      border-radius: 5px;
-    }
+.notification-item:hover {
+    background: #f1f3f5;
+}
 
-    .assessment-history .dropdown-content a {
-      color: black;
-      padding: 12px 16px;
-      text-decoration: none;
-      display: block;
-    }
+.message-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 12px;
+}
 
-    .assessment-history .dropdown-content a:hover {
-      background-color: #ddd;
-    }
+.read-button, .delete-button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
 
-    .pass {
-      background-color: #28a745;
-      color: white;
-      padding: 10px;
-      border-radius: 5px;
-      margin: 5px 0;
-    }
+.read-button {
+    background-color: #4CAF50;
+    color: white;
+}
 
-    .fail {
-      background-color: #dc3545;
-      color: white;
-      padding: 10px;
-      border-radius: 5px;
-      margin: 5px 0;
-    }
+.read-button:hover {
+    background-color: #45a049;
+    transform: translateY(-2px);
+}
 
-    /* Notification & Calendar Styles */
-    .notification-box, .calendar-box {
-      background: white;
-      padding: 20px;
-      border-radius: 15px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
+.delete-button {
+    background-color: #ff6b6b;
+    color: white;
+}
 
-    .notification-box h2, .calendar-box h2 {
-      font-size: 22px;
-      margin-bottom: 15px;
-    }
+.delete-button:hover {
+    background-color: #ff5252;
+    transform: translateY(-2px);
+}
 
-    .notification-box ul, .calendar-box ul {
-      list-style-type: none;
-      padding: 0;
-    }
+.no-messages {
+    text-align: center;
+    color: #636e72;
+    padding: 32px;
+    font-style: italic;
+    font-size: 15px;
+}
 
-    .notification-box li, .calendar-box li {
-      padding: 10px;
-      margin: 5px 0;
-      border-bottom: 1px solid #f0f0f0;
-    }
+.notification-box ul, .calendar-box ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
 
-    .bottom-logo {
-      margin-top: 10px; /* Reduced margin-top to move the logo higher */
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 20px 0; /* Add some padding above the logo */
-    }
+.notification-box li, .calendar-box li {
+    padding: 12px 0;
+    border-bottom: 1px solid #f1f3f5;
+    color: #636e72;
+}
 
-    .bottom-logo img {
-      max-width: 200px; /* Slightly increased logo size */
-      height: auto;
-    }
+.notification-box li:last-child, .calendar-box li:last-child {
+    border-bottom: none;
+}
 
-    .contact-info {
-      display: flex;
-      gap: 35px;
-      margin-top: 20px;
-      justify-content: center;
-      align-items: center;
-    }
+.calendar {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+    margin-top: 16px;
+}
 
-    .contact-info a {
-      text-decoration: none;
-      font-size: 20px;
-      color: black;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
+.calendar .day {
+    text-align: center;
+    padding: 8px;
+    background: #f8f9fa;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #2d3436;
+}
 
-    .contact-info a:hover {
-      color: #3498db;
-    }
+.calendar .event {
+    background: #4CAF50;
+    color: white;
+}
 
-    .contact-info i {
-      font-size: 22px;
-    }
+.calendar .today {
+    background: #4CAF50;
+    color: white;
+    font-weight: 600;
+}
+@endsection
 
-    .contact-info img {
-      width: 25px;
-      height: 25px;
-      border-radius: 5px;
-    }
+@section('content')
+<div class="main-content">
+    <!-- Left Section -->
+    <div class="left-section">
+        <div class="assessment-card">
+            <div class="assessment-history">
+                <h2>Assessment History</h2>
 
-     /* Calendar Styles */
-     .calendar-box {
-      background: white;
-      padding: 20px;
-      border-radius: 15px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
+                <div class="dropdown">
+                    <button onclick="toggleDropdown('module1')">Module 1</button>
+                    <div id="module1" class="dropdown-content">
+                        <a href="#">2025-03-10 (Monday) - <span class="pass">PASS</span></a>
+                        <a href="#">2025-03-6 (Thursday) - <span class="fail">FAIL</span></a>
+                    </div>
+                </div>
 
-    .calendar-box h2 {
-      font-size: 22px;
-      margin-bottom: 15px;
-    }
+                <div class="dropdown">
+                    <button onclick="toggleDropdown('module2')">Module 2</button>
+                    <div id="module2" class="dropdown-content">
+                        <a href="#">2025-03-12 (Wednesday) - <span class="pass">PASS</span></a>
+                        <a href="#">2025-03-8 (Saturday) - <span class="fail">FAIL</span></a>
+                    </div>
+                </div>
 
-    .calendar {
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      gap: 5px;
-      text-align: center;
-    }
+                <div class="dropdown">
+                    <button onclick="toggleDropdown('module3')">Module 3</button>
+                    <div id="module3" class="dropdown-content">
+                        <a href="#">2025-03-4 (Tuesday) - <span class="pass">PASS</span></a>
+                        <a href="#">2025-03-1 (Saturday) - <span class="fail">FAIL</span></a>
+                    </div>
+                </div>
 
-    .calendar .day {
-      padding: 10px;
-      background-color: #f1f1f1;
-      border-radius: 5px;
-    }
+                <div class="dropdown">
+                    <button onclick="toggleDropdown('module4')">Module 4</button>
+                    <div id="module4" class="dropdown-content">
+                        <a href="#">2025-02-27 (Thursday) - <span class="pass">PASS</span></a>
+                        <a href="#">2025-02-25 (Tuesday) - <span class="fail">FAIL</span></a>
+                    </div>
+                </div>
 
-    .calendar .event {
-      background-color: #3498db;
-      color: white;
-      padding: 5px;
-      border-radius: 5px;
-      font-size: 12px;
-    }
-
-    .calendar .today {
-      background-color: #2980b9;
-      color: white;
-    }
-  </style>  
-</head>
-<body>
-  <div class="top-bar">
-    <div class="top-bar-left">
-      <img src="images/FINN.png" alt="Profile Picture" class="profile-img"/>
-      <span>Ampuan Muhammad Abdul Matin Bin Ampuan Shahmali</span>
-    </div>
-  </div>
-
-  <img src="images/Poli.png" alt="Politeknik Logo" class="politeknik-logo"/>
-
-  <div class="container">
-    <div class="sidebar">
-      <div>
-        <!-- Home Page Button -->
-        <a href="{{ route('home') }}">
-          <button>Homepage</button>
-        </a>
-        <!-- Profile Button -->
-        <a href="{{ route('profile') }}">
-          <button>Profile</button>
-        </a>
-        <!-- Message Button -->
-        <a href="{{ route('message') }}">
-          <button>Message</button>
-        </a>
-        <!-- Account Button -->
-        <a href="{{ route('account') }}">
-          <button>Account</button>
-        <!-- Report & Feedbacks Button -->
-        <a href="{{ route('reportfeedback') }}">
-          <button>Report & Feedbacks</button>
-        </a>
-        <!-- About us Button -->
-        <a href="{{ route('aboutus') }}">
-          <button>About us</button>
-        </a>
-        <!-- Log Out Button -->
-        <a href="{{ route('login') }}">
-          <button>Log Out</button>
-        </a>
-      </div>
-      <div class="bottom-logo">
-        <img src="images/Logo.png" alt="SkillKit Logo"/>
-      </div>
-    </div>
-
-    <div class="main-content">
-      <div class="left-section">
-        <div class="assessment-history">
-          <h2>Assessment History</h2>
-
-          <div class="dropdown">
-            <button onclick="toggleDropdown('module1')">Module 1</button>
-            <div id="module1" class="dropdown-content">
-              <a href="#">2025-03-10 (Monday) - <span class="pass">PASS</span></a>
-              <a href="#">2025-03-6 (Thursrday) - <span class="fail">FAIL</span></a>
+                <div class="dropdown">
+                    <button onclick="toggleDropdown('module5')">Module 5</button>
+                    <div id="module5" class="dropdown-content">
+                        <a href="#">2025-02-10 (Saturday) - <span class="pass">PASS</span></a>
+                        <a href="#">2025-02-8 (Monday) - <span class="fail">FAIL</span></a>
+                    </div>
+                </div>
             </div>
-          </div>
-
-          <div class="dropdown">
-            <button onclick="toggleDropdown('module2')">Module 2</button>
-            <div id="module2" class="dropdown-content">
-              <a href="#">2025-03-12 (Wednesday) - <span class="pass">PASS</span></a>
-              <a href="#">2025-03-8 (Saturday) - <span class="fail">FAIL</span></a>
-            </div>
-          </div>
-
-          <div class="dropdown">
-            <button onclick="toggleDropdown('module3')">Module 3</button>
-            <div id="module3" class="dropdown-content">
-              <a href="#">2025-03-4 (Tuesday) - <span class="pass">PASS</span></a>
-              <a href="#">2025-03-1 (Saturday) - <span class="fail">FAIL</span></a>
-            </div>
-          </div>
-
-          <div class="dropdown">
-            <button onclick="toggleDropdown('module4')">Module 4</button>
-            <div id="module4" class="dropdown-content">
-              <a href="#">2025-02-27 (Thursday) - <span class="pass">PASS</span></a>
-              <a href="#">2025-02-25 (Tuesday) - <span class="fail">FAIL</span></a>
-            </div>
-          </div>
-
-          <div class="dropdown">
-            <button onclick="toggleDropdown('module5')">Module 5</button>
-            <div id="module5" class="dropdown-content">
-              <a href="#">2025-02-10 (saturday) - <span class="pass">PASS</span></a>
-              <a href="#">2025-02-8 (Monday) - <span class="fail">FAIL</span></a>
-            </div>
-          </div>
-          
         </div>
-      </div>
-      
-      <div class="right-section">
-        <!-- Notification Box -->
+    </div>
+
+    <!-- Right Section -->
+    <div class="right-section">
         <div class="notification-box">
-          <h2>Notifications</h2>
-          <ul>
-            <li>New module assessment scheduled for 2025-03-15</li>
-            <li>Your report has been reviewed</li>
-            <li>Reminder: Feedback submission deadline is approaching</li>
-          </ul>
+            <h3>Received Messages</h3>
+            @if($messages->count() > 0)
+                @foreach($messages as $message)
+                    <div class="notification-item {{ !$message->is_read ? 'unread' : '' }}" 
+                         data-message-id="{{ $message->id }}">
+                        <div class="message-sender">
+                            From: {{ $message->sender->name }}
+                        </div>
+                        <div class="message-content">
+                            {{ Str::limit($message->content, 100) }}
+                        </div>
+                        <div class="message-time">
+                            {{ $message->created_at->format('M d, Y H:i') }}
+                        </div>
+                        <div class="message-actions">
+                            <button class="read-button" onclick="openMessageModal({{ $message->id }}, '{{ $message->content }}')">Read</button>
+                            <button class="delete-button" onclick="confirmDelete({{ $message->id }})">Delete</button>
+                        </div>
+                    </div>
+                @endforeach
+            @else
+                <div class="no-messages">
+                    No messages received yet.
+                </div>
+            @endif
         </div>
-
-       <!-- Calendar Box -->
-       <div class="calendar-box">
-          <h2>Upcoming Events</h2>
-          <div class="calendar">
-            <div class="day">Sun</div>
-            <div class="day">Mon</div>
-            <div class="day">Tue</div>
-            <div class="day">Wed</div>
-            <div class="day">Thu</div>
-            <div class="day">Fri</div>
-            <div class="day">Sat</div>
-
-            <!-- Calendar days -->
-            <div class="day">1</div>
-            <div class="day">2</div>
-            <div class="day">3</div>
-            <div class="day">4</div>
-            <div class="day">5</div>
-            <div class="day event">6</div>
-            <div class="day event">7</div>
-            <div class="day">8</div>
-            <div class="day">9</div>
-            <div class="day">10</div>
-            <div class="day event today">11</div>
-            <div class="day">12</div>
-            <div class="day event">13</div>
-            <div class="day">14</div>
-            <div class="day event">15</div>
-        </div>
-      </div>
     </div>
-  </div>
+</div>
+@endsection
 
-  <script>
+@section('scripts')
+<script>
     function toggleDropdown(moduleId) {
-      // Close all dropdowns
-      document.querySelectorAll('.dropdown-content').forEach(function(el) {
-        if (el.id !== moduleId) {
-          el.style.display = "none";
-        }
-      });
+        // Close all dropdowns
+        document.querySelectorAll('.dropdown-content').forEach(function(el) {
+            if (el.id !== moduleId) {
+                el.style.display = "none";
+            }
+        });
 
-      // Toggle the clicked dropdown
-      var content = document.getElementById(moduleId);
-      if (content.style.display === "block") {
-        content.style.display = "none";
-      } else {
-        content.style.display = "block";
-      }
+        // Toggle the clicked dropdown
+        var content = document.getElementById(moduleId);
+        if (content.style.display === "block") {
+            content.style.display = "none";
+        } else {
+            content.style.display = "block";
+        }
     }
-  </script>
-</body>
-</html>
+
+    function openMessageModal(messageId, content) {
+        // Implement message modal functionality
+        alert(content); // For now, just show an alert
+    }
+
+    function confirmDelete(messageId) {
+        if (confirm('Are you sure you want to delete this message?')) {
+            fetch(`/message/${messageId}/delete`, {
+                method: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                    'Accept': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    const messageElement = document.querySelector(`[data-message-id="${messageId}"]`);
+                    messageElement.remove();
+                }
+            });
+        }
+    }
+</script>
+@endsection

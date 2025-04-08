@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Message;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
@@ -15,7 +16,8 @@ class HomeController extends Controller
             ->get();
         
         $user = Auth::user();
+        $users = User::where('id', '!=', Auth::id())->get();
         
-        return view('home', compact('messages', 'user'));
+        return view('home', compact('messages', 'user', 'users'));
     }
-} 
+}

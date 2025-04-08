@@ -244,9 +244,6 @@
         <a href="{{ route('messageadmin') }}">
           <button>Message</button>
         </a>
-        <!-- Account Button -->
-        <a href="{{ route('accountadmin') }}">
-          <button>Account</button>
         <!-- Report & Feedbacks Button -->
         <a href="{{ route('reportfeedbackadmin') }}">
           <button>Report & Feedbacks</button>

@@ -208,7 +208,7 @@
         @enderror
         <div class="register-button" onclick="document.getElementById('registerForm').submit()">Register</div>
       </form>
-      <a href="{{ route('login') }}" class="back-to-login">Already have an account? Login</a>
+      <a href="{{ route('login') }}" class="back-to-login">Return to Login</a>
     </div>
   </div>
 

@@ -194,24 +194,27 @@
     <!-- Sidebar -->
     <div class="sidebar">
       <div>
+        <!-- Home Page Button -->
         <a href="{{ route('homelec') }}">
           <button>Homepage</button>
         </a>
+        <!-- Profile Button -->
         <a href="{{ route('profilelec') }}">
           <button>Profile</button>
         </a>
+        <!-- Message Button -->
         <a href="{{ route('messagelec') }}">
           <button>Message</button>
         </a>
-        <a href="{{ route('accountlec') }}">
-          <button>Account</button>
-        </a>
+        <!-- Report & Feedbacks Button -->
         <a href="{{ route('reportfeedbacklec') }}">
           <button>Report & Feedbacks</button>
         </a>
+        <!-- About us Button -->
         <a href="{{ route('aboutuslec') }}">
           <button>About us</button>
         </a>
+        <!-- Log Out Button -->
         <a href="{{ route('login') }}">
           <button>Log Out</button>
         </a>

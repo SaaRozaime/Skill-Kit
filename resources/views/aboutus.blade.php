@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   <title>Message - SkillKit Dashboard</title>
   <style>
     body, html {
@@ -307,7 +308,60 @@
       width: 200px;
       height: auto;
     }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 1000;
+    }
+
+    .modal-content {
+      background: white;
+      margin: 15% auto;
+      padding: 20px;
+      width: 50%;
+      border-radius: 8px;
+      position: relative;
+    }
+
+    .close-modal {
+      position: absolute;
+      right: 20px;
+      top: 10px;
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    .delete-confirm-buttons {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .delete-confirm-buttons button {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .delete-confirm-buttons button:first-child {
+      background: #ff6b6b;
+      color: white;
+    }
+
+    .delete-confirm-buttons button:last-child {
+      background: #6c757d;
+      color: white;
+    }
   </style>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
   <!-- Top Bar -->
@@ -416,7 +470,113 @@
     </div>
   </div>
 
+  <!-- Message Modal -->
+  <div id="messageModal" class="modal">
+    <div class="modal-content">
+      <span class="close-modal" onclick="closeMessageModal()">&times;</span>
+      <h3>Message Details</h3>
+      <div class="full-message" id="fullMessageContent"></div>
+    </div>
+  </div>
+
+  <!-- Delete Confirmation Modal -->
+  <div id="deleteModal" class="modal">
+    <div class="modal-content">
+      <h3>Delete Message</h3>
+      <p>Are you sure you want to delete this message?</p>
+      <div class="delete-confirm-buttons">
+        <button onclick="deleteMessage()">Delete</button>
+        <button onclick="closeDeleteModal()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Font Awesome CDN (For Icons) -->
   <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+  <script>
+    // Add CSRF token to all AJAX requests
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+
+    let currentMessageId = null;
+
+    function openMessageModal(messageId, content) {
+      currentMessageId = messageId;
+      document.getElementById('fullMessageContent').textContent = content;
+      document.getElementById('messageModal').style.display = 'block';
+      markAsRead(messageId);
+    }
+
+    function closeMessageModal() {
+      document.getElementById('messageModal').style.display = 'none';
+    }
+
+    function confirmDelete(messageId) {
+      currentMessageId = messageId;
+      document.getElementById('deleteModal').style.display = 'block';
+    }
+
+    function closeDeleteModal() {
+      document.getElementById('deleteModal').style.display = 'none';
+    }
+
+    function deleteMessage() {
+      if (!currentMessageId) return;
+
+      fetch(`/message/${currentMessageId}/delete`, {
+        method: 'DELETE',
+        headers: {
+          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+          'Accept': 'application/json'
+        }
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          const messageElement = document.querySelector(`[data-message-id="${currentMessageId}"]`);
+          if (messageElement) {
+            messageElement.remove();
+          }
+          closeDeleteModal();
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+    }
+
+    function markAsRead(messageId) {
+      fetch(`/message/${messageId}/read`, {
+        method: 'POST',
+        headers: {
+          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+          'Accept': 'application/json'
+        }
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          const messageElement = document.querySelector(`[data-message-id="${messageId}"]`);
+          messageElement.classList.remove('unread');
+        }
+      });
+    }
+
+    // Close modals when clicking outside
+    window.onclick = function(event) {
+      const messageModal = document.getElementById('messageModal');
+      const deleteModal = document.getElementById('deleteModal');
+      
+      if (event.target == messageModal) {
+        closeMessageModal();
+      }
+      if (event.target == deleteModal) {
+        closeDeleteModal();
+      }
+    }
+  </script>
 </body>
 </html>
